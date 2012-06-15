@@ -1,0 +1,38 @@
+9
+1
+7
+9
+D:\pen-drive\CommandLine\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
+myapp.exe
+D:\pen-drive\CommandLine\build\bin
+D:\pen-drive\CommandLine\build\bin\myapp.exe
+D:\pen-drive\CommandLine\test
+yes
+yes
+Mars
+3
+3.14159265
+Tested Yet...
+Tested Yet...
+Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getAllParameters
+getCurrentParameter
+0
+0
+Mercury
+3
+3.14159265
+getLastParameter
+0
+0
+Earth
+Jupiter
+yes
+--
+=
+3
+3.14159265
+Earth is the third planet from the Sun
+
+Earth is the third planet from the Sun
+yes
+no
