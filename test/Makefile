@@ -27,6 +27,7 @@
 
 EXEC   = ../build/bin/myapp
 OUTPUT = result.txt
+
 all :
 	@echo Autotest...
 	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getParametersNumber > $(OUTPUT)

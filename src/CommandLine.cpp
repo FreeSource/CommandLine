@@ -165,14 +165,14 @@ namespace util {
     }
     
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
-        this->postfixed = false;
+        postfixed = false;
         this->optionPrefix = optionPrefix;
         optionParameters = parameters;
     }
     
     void CommandLine::setOptionPostfix( const string &optionPostfix ) {
         if ( !optionPostfix.empty() ) {
-            this->postfixed = true;
+            postfixed = true;
             this->optionPrefix = optionPostfix;
             convertOptionPostfixToPrefix();
         }
@@ -267,16 +267,16 @@ namespace util {
         string parameters;
         if ( index != OPTION_NOT_FOUND ) {
             size_t found;
-            for ( ++index; unsigned( index ) < this->optionParameters.size(); ++index ) {
-                found = optionPrefix.empty() || this->optionParameters.at( index ) == optionPrefix ? string::npos : this->optionParameters.at( index ).find( optionPrefix );
+            for ( ++index; unsigned( index ) < optionParameters.size(); ++index ) {
+                found = optionPrefix.empty() || optionParameters.at( index ) == optionPrefix ? string::npos : optionParameters.at( index ).find( optionPrefix );
                 
                 if ( found == string::npos || found > 0 ) {
-                    parameters += this->optionParameters.at( index );
+                    parameters += optionParameters.at( index );
                 } else {
                     break;
                 }
                 
-                if ( unsigned( index + 1 ) < this->optionParameters.size() ) {
+                if ( unsigned( index + 1 ) < optionParameters.size() ) {
                     parameters += " ";
                 }
             }

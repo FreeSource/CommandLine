@@ -2,11 +2,11 @@
 1
 7
 9
-D:\pen-drive\CommandLine\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
+D:\pen-drive\CommandLine_15_06_2012\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
 myapp.exe
-D:\pen-drive\CommandLine\build\bin
-D:\pen-drive\CommandLine\build\bin\myapp.exe
-D:\pen-drive\CommandLine\test
+D:\pen-drive\CommandLine_15_06_2012\build\bin
+D:\pen-drive\CommandLine_15_06_2012\build\bin\myapp.exe
+D:\pen-drive\CommandLine_15_06_2012\test
 yes
 yes
 Mars

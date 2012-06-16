@@ -28,4 +28,8 @@ GOTO EndComment
 --------------------------------------------------------------------------
 :EndComment
 
-mingw32-make %1
+IF [%1] NEQ [] IF [%2] NEQ [] set ARGS=%1=%2
+
+mingw32-make %ARGS%
+
+set ARGS=
