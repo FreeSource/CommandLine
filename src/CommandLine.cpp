@@ -33,7 +33,9 @@
 #include <util.h>
 #include <compatibility.h>
 
-#define OPTION_NOT_FOUND -1
+namespace {
+    const int OPTION_NOT_FOUND = -1;
+}
 
 namespace util {
     

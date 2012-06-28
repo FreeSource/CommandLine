@@ -137,9 +137,77 @@ const vector<string> getArguments() {
 #include <fcntl.h>
 #include <sys/types32.h>
 
-const psinfo_t getProcessInfo();
-void readArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo );
-const vector<string> collectArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo );
+namespace {
+    
+    const psinfo_t getProcessInfo();
+    void readArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo );
+    const vector<string> collectArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo );
+    
+    const psinfo_t getProcessInfo() {
+        psinfo_t pinfo;
+        int procFile = open( "/proc/self/psinfo", O_RDONLY );
+        
+        if ( procFile == -1 ) {
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
+        }
+        
+        if ( read( procFile, &pinfo, sizeof( psinfo_t ) ) == -1 ) {
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
+        }
+        
+        close( procFile );
+        return pinfo;
+    }
+
+    void readArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo ) {
+        procFile = open( "/proc/self/as", O_RDONLY );
+        
+        if ( procFile == -1 ) {
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
+        }
+        
+        if ( pinfo.pr_dmodel == PR_MODEL_NATIVE ) {
+            if ( pread( procFile, arguments, pinfo.pr_argc * sizeof( uintptr_t ), pinfo.pr_argv ) == -1 ) {
+                throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
+            }
+        } else {
+            caddr32_t *Argvec32 = ( caddr32_t * )arguments;
+            if ( pread( procFile, Argvec32, pinfo.pr_argc * sizeof( caddr32_t ), pinfo.pr_argv ) == -1 ) {
+                throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
+            }
+            
+            for ( int index = pinfo.pr_argc - 1; index >= 0; --index ) {
+                arguments[index] = Argvec32[index];
+            }
+        }
+    }
+
+    const vector<string> collectArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo ) {
+        vector<string> args;
+        size_t argLength = 16;
+        char *argument = ( char* )malloc( argLength + 1 );
+        
+        if ( argument != NULL ) {
+            for ( int index = 1; index < pinfo.pr_argc; ++index ) {
+                if ( pread( procFile, argument, argLength, arguments[index] ) == -1 ) {
+                    throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't collect process arguments." );
+                }
+                
+                if ( strlen( argument ) == argLength ) {
+                    argument = ( char* )realloc( argument, ( argLength *= 2 ) + 1 );
+                    if ( argument == NULL ) {
+                        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't collect process arguments." );
+                    }
+                    --index;
+                    continue;
+                }
+                args.push_back( argument );
+            }
+            free( argument );
+        }
+        return args;
+    }
+}
 
 const string getExecutablePath() {
     char path[PATH_MAX];
@@ -161,71 +229,6 @@ const vector<string> getArguments() {
 
     close( procFile );
     free( arguments );
-    return args;
-}
-
-const psinfo_t getProcessInfo() {
-    psinfo_t pinfo;
-    int procFile = open( "/proc/self/psinfo", O_RDONLY );
-    
-    if ( procFile == -1 ) {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
-    }
-    
-    if ( read( procFile, &pinfo, sizeof( psinfo_t ) ) == -1 ) {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
-    }
-    
-    close( procFile );
-    return pinfo;
-}
-
-void readArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo ) {
-    procFile = open( "/proc/self/as", O_RDONLY );
-    
-    if ( procFile == -1 ) {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
-    }
-    
-    if ( pinfo.pr_dmodel == PR_MODEL_NATIVE ) {
-        if ( pread( procFile, arguments, pinfo.pr_argc * sizeof( uintptr_t ), pinfo.pr_argv ) == -1 ) {
-            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
-        }
-    } else {
-        caddr32_t *Argvec32 = ( caddr32_t * )arguments;
-        if ( pread( procFile, Argvec32, pinfo.pr_argc * sizeof( caddr32_t ), pinfo.pr_argv ) == -1 ) {
-            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
-        }
-        
-        for ( int index = pinfo.pr_argc - 1; index >= 0; --index ) {
-            arguments[index] = Argvec32[index];
-        }
-    }
-}
-
-const vector<string> collectArguments( int &procFile, uintptr_t *arguments, psinfo_t &pinfo ) {
-    vector<string> args;
-    size_t argLength = 16;
-    char *argument = ( char* )malloc( argLength + 1 );
-    
-    if ( argument != NULL ) {
-        for ( int index = 1; index < pinfo.pr_argc; ++index ) {
-            if ( pread( procFile, argument, argLength, arguments[index] ) == -1 ) {
-                throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't collect process arguments." );
-            }
-            
-            if ( strlen( argument ) == argLength ) {
-                argument = ( char* )realloc( argument, ( argLength *= 2 ) + 1 );
-                if ( argument == NULL ) {
-                    throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't collect process arguments." );
-                }
-                --index;
-                continue;
-            }
-            args.push_back( argument );
-        }
-        free( argument );
-    }
     return args;
 }
 
