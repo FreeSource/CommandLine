@@ -2,7 +2,7 @@
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
     File: compatibility.cpp
-    Version: 1.0
+    Version: 1.0.1
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
     All rights reserved.

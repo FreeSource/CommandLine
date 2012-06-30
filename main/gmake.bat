@@ -4,7 +4,7 @@ GOTO EndComment
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
     File: Makefile
-    Version: 1.0
+    Version: 1.0.0
     Copyright (C) 2012 Enzo Roberto Verlato
     Contact: enzover@ig.com.br
     All rights reserved.
