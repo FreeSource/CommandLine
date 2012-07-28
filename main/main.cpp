@@ -2,7 +2,7 @@
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
     File: main.cpp
-    Version: 1.0.0
+    Version: 1.0.1
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
     All rights reserved.
@@ -79,19 +79,11 @@ int main() {
                 
             } else if( commandLine.getCurrentParameter() == "hasParameter" ) {
                 
-                commandLine.hasParameter( commandLine.getParameterAsInteger( commandLine.getCurrentPosition() + 1 ) ) ? cout << "yes" << endl : cout << "no" << endl;
+                commandLine.hasParameter( atoi( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ).c_str() ) ) ? cout << "yes" << endl : cout << "no" << endl;
                 
             } else if( commandLine.getCurrentParameter() == "getParameter" ) {
                 
-                cout << commandLine.getParameter( commandLine.getParameterAsInteger( commandLine.getCurrentPosition() + 1 ) ) << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getParameterAsInteger" ) {
-                
-                cout << commandLine.getParameterAsInteger( commandLine.getParameterAsInteger( commandLine.getCurrentPosition() + 1 ) ) << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getParameterAsFloat" ) {
-                
-                cout << commandLine.getParameterAsFloat( commandLine.getParameterAsInteger( commandLine.getCurrentPosition() + 1 ) ) << endl;
+                cout << commandLine.getParameter( atoi( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ).c_str() ) ) << endl;
                 
             } else if( commandLine.getCurrentParameter() == "gotoFirstParameter" ) {
                 
@@ -109,37 +101,13 @@ int main() {
                 
                 cout << commandLine.getCurrentParameter() << endl;
                 
-            } else if( commandLine.getCurrentParameter() == "getCurrentParameterAsInteger" ) {
-                
-                cout << commandLine.getCurrentParameterAsInteger() << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getCurrentParameterAsFloat" ) {
-                
-                cout << commandLine.getCurrentParameterAsFloat() << endl;
-                
             } else if( commandLine.getCurrentParameter() == "getFirstParameter" ) {
                 
                 cout << commandLine.getFirstParameter() << endl;
                 
-            } else if( commandLine.getCurrentParameter() == "getFirstParameterAsInteger" ) {
-                
-                cout << commandLine.getFirstParameterAsInteger() << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getFirstParameterAsFloat" ) {
-                
-                cout << commandLine.getFirstParameterAsFloat() << endl;
-                
             } else if( commandLine.getCurrentParameter() == "getLastParameter" ) {
                 
                 cout << commandLine.getLastParameter() << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getLastParameterAsInteger" ) {
-                
-                cout << commandLine.getLastParameterAsInteger() << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getLastParameterAsFloat" ) {
-                
-                cout << commandLine.getLastParameterAsFloat() << endl;
                 
             } else if( commandLine.getCurrentParameter() == "setOptionPrefix" ) {
                 
@@ -164,14 +132,6 @@ int main() {
             } else if( commandLine.getCurrentParameter() == "getOptionValue" ) {
                 
                 cout << commandLine.getOptionValue( option ) << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getOptionValueAsInteger" ) {
-                
-                cout << commandLine.getOptionValueAsInteger( option ) << endl;
-                
-            } else if( commandLine.getCurrentParameter() == "getOptionValueAsFloat" ) {
-                
-                cout << commandLine.getOptionValueAsFloat( option ) << endl;
                 
             } else if( commandLine.getCurrentParameter() == "getOptionLongValue" ) {
                 

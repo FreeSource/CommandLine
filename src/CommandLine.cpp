@@ -2,7 +2,7 @@
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
     File: CommandLine.cpp
-    Version: 1.0.2
+    Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
     All rights reserved.
@@ -106,14 +106,6 @@ namespace util {
         return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
     }
     
-    const int CommandLine::getParameterAsInteger( const unsigned &position ) const {
-        return atoi( getParameter( position ).c_str() );
-    }
-    
-    const double CommandLine::getParameterAsFloat( const unsigned &position ) const {
-        return atof( getParameter( position ).c_str() );
-    }
-    
     void CommandLine::gotoFirstParameter() {
         currentPosition = 0;
     }
@@ -134,36 +126,12 @@ namespace util {
         return getParameter( currentPosition + 1 );
     }
     
-    const int CommandLine::getCurrentParameterAsInteger() const {
-        return getParameterAsInteger( currentPosition + 1 );
-    }
-    
-    const double CommandLine::getCurrentParameterAsFloat() const {
-        return getParameterAsFloat( currentPosition + 1 );
-    }
-    
     const string CommandLine::getFirstParameter() const {
         return getParameter( 1 );
     }
     
-    const int CommandLine::getFirstParameterAsInteger() const {
-        return getParameterAsInteger( 1 );
-    }
-    
-    const double CommandLine::getFirstParameterAsFloat() const {
-        return getParameterAsFloat( 1 );
-    }
-    
     const string CommandLine::getLastParameter() const {
         return getParameter( parameters.size() );
-    }
-    
-    const int CommandLine::getLastParameterAsInteger() const {
-        return getParameterAsInteger( parameters.size() );
-    }
-    
-    const double CommandLine::getLastParameterAsFloat() const {
-        return getParameterAsFloat( parameters.size() );
     }
     
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
@@ -238,14 +206,6 @@ namespace util {
     
     const bool CommandLine::hasOption( const string &option ) const {
         return findOptionPosition( option ) != OPTION_NOT_FOUND ? true : false;
-    }
-    
-    const int CommandLine::getOptionValueAsInteger( const string &option ) const {
-        return atoi( getOptionValue( option ).c_str() );
-    }
-    
-    const double CommandLine::getOptionValueAsFloat( const string &option ) const {
-        return atof( getOptionValue( option ).c_str() );
     }
     
     const string CommandLine::getOptionValue( const string &option ) const {
