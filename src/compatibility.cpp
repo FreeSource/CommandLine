@@ -236,6 +236,8 @@ const vector<string> getArguments() {
 
 #if defined (__linux) || defined (__FreeBSD__) || defined (__sun)
 
+#include <unistd.h>
+
 const string getCurrentDirectory() {
     char currentDir[PATH_MAX];
     
