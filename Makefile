@@ -26,15 +26,16 @@
 # --------------------------------------------------------------------------
 
 CXX = g++
-INCLUDES = ../include
-VPATH = ../src
-RES = ../rc/
+APPPATH = app
+INCLUDES = include
+VPATH = src
+RES = rc
 OPTFLAGS = -s -Os
 CFLAGS = -I$(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
 
 EXEC   = myapp
-OBJS = ../build/obj/
-BIN  = ../build/bin/
+OBJS = build/obj/
+BIN  = build/bin/
 
 ifeq ($(OS),Windows_NT)
     FIXPATH = $(subst /,\,$1)
@@ -92,26 +93,26 @@ define compile
     @$(CXX) -c -o $(OBJS)$1.o $(VPATH)/$1.cpp $(CFLAGS)
 endef
 
-all : main CommandLine compatibility util
+all: main CommandLine compatibility util
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
 
-main : main.cpp
+main:
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
 	@echo $@
-	@$(CXX) -c -o $(OBJS)$@.o $^ $(CFLAGS)
+	@$(CXX) -c -o $(OBJS)$@.o $(APPPATH)/$@.cpp $(CFLAGS)
 
-CommandLine : CommandLine.cpp
+CommandLine:
 	$(call compile,$@)
 
-compatibility : compatibility.cpp
+compatibility:
 	$(call compile,$@)
 
-util : util.cpp
+util:
 	$(call compile,$@)
 
-.PHONY : clean
-clean :
+.PHONY: clean
+clean:
 	@echo Cleaning...
 	@-$(RM) $(call FIXPATH,$(BIN)*)
 	@-$(RM) $(call FIXPATH,$(OBJS)*.o)
