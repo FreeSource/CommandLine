@@ -49,8 +49,8 @@ namespace util {
             applicationFullPath = getExecutablePath();
             parameters = getArguments();
             optionParameters = parameters;
-            
-        } catch ( runtime_error &error ) {
+        }
+        catch ( runtime_error &error ) {
             // Clean up all previous efforts...
             applicationFullPath.clear();
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
@@ -85,7 +85,8 @@ namespace util {
     const string CommandLine::getCurrentWorkingDirectory() const {
         try {
             return getCurrentDirectory();
-        } catch ( runtime_error &error ) {
+        }
+        catch ( runtime_error &error ) {
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
         }
     }
@@ -234,7 +235,8 @@ namespace util {
                 
                 if ( found == string::npos || found > 0 ) {
                     parameters += optionParameters.at( index );
-                } else {
+                }
+                else {
                     break;
                 }
                 

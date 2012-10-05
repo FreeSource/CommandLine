@@ -43,7 +43,8 @@ const string getExecutablePath() {
     
     if ( bytes > 0 ) {
         return exepath;
-    } else {
+    }
+    else {
         throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process executable path." );
     }
 }
@@ -71,7 +72,8 @@ const string getCurrentDirectory() {
     char currentDir[MAX_PATH];
     if ( GetCurrentDirectory( MAX_PATH, currentDir ) > 0 ) {
         return currentDir;
-    } else {
+    }
+    else {
         throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
     }
 }
@@ -98,7 +100,8 @@ const string getExecutablePath() {
     char path[PATH_MAX];
     if ( realpath( PROGRAM_NAME, path ) ) {
         return path;
-    } else {
+    }
+    else {
         throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process executable path." );
     }
 }
@@ -147,11 +150,7 @@ namespace {
         psinfo_t pinfo;
         int procFile = open( "/proc/self/psinfo", O_RDONLY );
         
-        if ( procFile == -1 ) {
-            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
-        }
-        
-        if ( read( procFile, &pinfo, sizeof( psinfo_t ) ) == -1 ) {
+        if ( procFile == -1 || read( procFile, &pinfo, sizeof( psinfo_t ) ) == -1 ) {
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process information." );
         }
         
@@ -170,7 +169,8 @@ namespace {
             if ( pread( procFile, arguments, pinfo.pr_argc * sizeof( uintptr_t ), pinfo.pr_argv ) == -1 ) {
                 throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
             }
-        } else {
+        }
+        else {
             caddr32_t *Argvec32 = ( caddr32_t * )arguments;
             if ( pread( procFile, Argvec32, pinfo.pr_argc * sizeof( caddr32_t ), pinfo.pr_argv ) == -1 ) {
                 throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process address-space image." );
@@ -213,7 +213,8 @@ const string getExecutablePath() {
     char path[PATH_MAX];
     if ( realpath( getexecname(), path ) ) {
         return path;
-    } else {
+    }
+    else {
         throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process executable path." );
     }
 }
@@ -243,7 +244,8 @@ const string getCurrentDirectory() {
     
     if ( getcwd( currentDir, PATH_MAX ) != NULL ) {
         return currentDir;
-    } else {
+    }
+    else {
         throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
     }
 }
