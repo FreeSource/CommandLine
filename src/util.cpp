@@ -47,7 +47,7 @@ const vector<string> split( string text, const string &token ) {
         }
     }
    
-   return fields;
+    return fields;
 }
 
 const string trim( string text ) {
