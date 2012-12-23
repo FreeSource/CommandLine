@@ -71,11 +71,12 @@ namespace util {
     }
     
     const string CommandLine::getApplicationName() const {
-        return applicationFullPath.substr( applicationFullPath.rfind( PATH_SEPARATOR ) + 1U );
+        return applicationFullPath.substr( applicationFullPath.find_last_of( "/\\" ) + 1U );
     }
     
     const string CommandLine::getApplicationPath() const {
-        return applicationFullPath.substr( 0, applicationFullPath.rfind( PATH_SEPARATOR ) );
+        return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
+        //~ return applicationFullPath.substr( 0, applicationFullPath.rfind( '/' ) );
     }
     
     const string CommandLine::getApplicationFullPath() const {

@@ -1,0 +1,28 @@
+9
+1
+7
+9
+/usr/home/enzo/FreeSource-CommandLine-31b6bf7/build/bin/myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
+myapp.exe
+/usr/home/enzo/FreeSource-CommandLine-31b6bf7/build/bin
+/usr/home/enzo/FreeSource-CommandLine-31b6bf7/build/bin/myapp.exe
+/usr/home/enzo/FreeSource-CommandLine-31b6bf7/test
+yes
+yes
+Mars
+Tested Yet...
+Tested Yet...
+Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getAllParameters
+getCurrentParameter
+Mercury
+getLastParameter
+Earth
+Jupiter
+yes
+--
+=
+Earth is the third planet from the Sun
+
+Earth is the third planet from the Sun
+yes
+no

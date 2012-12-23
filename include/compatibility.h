@@ -2,7 +2,7 @@
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
     File: compatibility.h
-    Version: 1.0.1
+    Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
     All rights reserved.
@@ -26,14 +26,6 @@
 --------------------------------------------------------------------------*/
 #ifndef COMPATIBILITY_H
 #define COMPATIBILITY_H
-
-#if defined (_WIN32)
-#define PATH_SEPARATOR "\\"
-
-#elif defined (__linux) || defined (__FreeBSD__) || defined (__sun)
-#define PATH_SEPARATOR "/"
-
-#endif
 
 #include <string>
 #include <vector>

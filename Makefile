@@ -2,7 +2,7 @@
 #    DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #    
 #    File: Makefile
-#    Version: 1.0.0
+#    Version: 3.0.0
 #    Copyright: (C) 2012 by Enzo Roberto Verlato
 #    Contact: enzover@ig.com.br
 #    All rights reserved.
@@ -27,75 +27,57 @@
 
 CXX = g++
 APPPATH = app
+OBJS = build/obj/
+BIN  = build/bin/
 INCLUDES = include
 VPATH = src
 RES = rc
-OPTFLAGS = -s -Os
+OPTFLAGS = -Os
 CFLAGS = -I$(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
+OSTYPE = $(shell gcc -dumpmachine)
+EXEC = myapp.exe
 
-EXEC   = myapp
-OBJS = build/obj/
-BIN  = build/bin/
+ifneq (,$(findstring $(firstword $(subst -, ,$(shell gcc -dumpmachine))),mingw32 i686 i586 i386))
+    BITS = -m32
+else 
+    BITS = -m64
+endif
 
-ifeq ($(OS),Windows_NT)
+ifneq (,$(findstring mingw,$(OSTYPE)))
     FIXPATH = $(subst /,\,$1)
-    OSTYPE = WINDOWS
+    OSTYPE = Windows
     LIB =
     RM = del /s /q
-    
-    ifeq ($(PROCESSOR_ARCHITECTURE),x86)
-        BITS = -m32
-    else
-        BITS = -m64
-    endif
 else
     FIXPATH = $1
-    OSTYPE = $(shell uname -s)
     RM = rm -f
     
-    ifeq ($(OSTYPE),Linux)
-        OSTYPE = LINUX
+    ifneq (,$(findstring linux,$(OSTYPE)))
+        OSTYPE = Linux
         LIB =
-        
-        BITS = $(shell uname -m)
-        ifeq ($(BITS),i686)
-            BITS = -m32
-        else
-            BITS = -m64
-        endif
+    else ifneq (,$(findstring freebsd,$(OSTYPE)))
+        OSTYPE = FreeBSD
+        LIB =
+    else ifneq (,$(findstring solaris,$(OSTYPE)))
+        OSTYPE = Solaris
+        LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
+    else ifneq (,$(findstring darwin,$(OSTYPE)))
+        OSTYPE = MacOSX
+        LIB =
     else
-        ifeq ($(OSTYPE),FreeBSD)
-                OSTYPE = FREEBSD
-                LIB =
-                
-                BITS = $(shell uname -m)
-                ifeq ($(BITS),i386)
-                    BITS = -m32
-                else
-                    BITS = -m64
-                endif
-        else
-            OSTYPE = SOLARIS
-            LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
-            
-            BITS = $(shell isainfo -b)
-            ifeq ($(BITS),32)
-                BITS = -m32
-            else
-                BITS = -m64
-            endif
-        endif
+        $(error Operating System not found)
     endif
 endif
 
 define compile
-    @echo $1
-    @$(CXX) -c -o $(OBJS)$1.o $(VPATH)/$1.cpp $(CFLAGS)
+    @echo $(subst _$(OSTYPE),,$1)
+    @$(CXX) -c -o $(OBJS)$(subst _$(OSTYPE),,$1).o $(VPATH)/$1.cpp $(CFLAGS)
 endef
 
 all: main CommandLine compatibility util
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
+	@strip $(BIN)$(EXEC)
 
 main:
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
@@ -106,7 +88,7 @@ CommandLine:
 	$(call compile,$@)
 
 compatibility:
-	$(call compile,$@)
+	$(call compile,$@_$(OSTYPE))
 
 util:
 	$(call compile,$@)
