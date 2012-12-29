@@ -76,7 +76,6 @@ namespace util {
     
     const string CommandLine::getApplicationPath() const {
         return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
-        //~ return applicationFullPath.substr( 0, applicationFullPath.rfind( '/' ) );
     }
     
     const string CommandLine::getApplicationFullPath() const {
