@@ -31,7 +31,7 @@
 #include <stdexcept>
 
 #include <util.h>
-#include <compatibility.h>
+#include <system.h>
 
 namespace {
     const int OPTION_NOT_FOUND = -1;

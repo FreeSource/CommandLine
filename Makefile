@@ -29,11 +29,11 @@ CXX = g++
 APPPATH = app
 OBJS = build/obj/
 BIN  = build/bin/
-INCLUDES = include
-VPATH = src
+INCLUDES = -Iinclude -Iext/include
+
 RES = rc
 OPTFLAGS = -Os
-CFLAGS = -I$(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
+CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
 OSTYPE = $(shell gcc -dumpmachine)
 EXEC = myapp.exe
 
@@ -69,28 +69,29 @@ else
     endif
 endif
 
+vpath % app:src:ext/src:ext/src/$(OSTYPE)
+
 define compile
     @echo $(subst _$(OSTYPE),,$1)
-    @$(CXX) -c -o $(OBJS)$(subst _$(OSTYPE),,$1).o $(VPATH)/$1.cpp $(CFLAGS)
+    @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: main CommandLine compatibility util
+all: main CommandLine system util
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
 	@strip $(BIN)$(EXEC)
 
-main:
+main: main.cpp
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
-	@echo $@
-	@$(CXX) -c -o $(OBJS)$@.o $(APPPATH)/$@.cpp $(CFLAGS)
-
-CommandLine:
 	$(call compile,$@)
 
-compatibility:
-	$(call compile,$@_$(OSTYPE))
+CommandLine: CommandLine.cpp
+	$(call compile,$@)
 
-util:
+system: system.cpp
+	$(call compile,$@)
+
+util: util.cpp
 	$(call compile,$@)
 
 .PHONY: clean
