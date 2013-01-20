@@ -38,7 +38,7 @@ using std::runtime_error;
 
 int main() {
     try {
-        util::CommandLine commandLine;
+        environs::CommandLine commandLine;
         string option;
         cout.precision( 9 );
         

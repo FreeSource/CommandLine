@@ -29,16 +29,15 @@
 #define COMMANDLINE_H
 
 #include <string>
-#include <vector>
 
-namespace util
+namespace environs
 {
     using std::string;
-    using std::vector;
     
     class CommandLine {
         public:
             CommandLine();
+            ~CommandLine();
             
             const string getCommandLine() const;
             
@@ -80,20 +79,8 @@ namespace util
             const bool isOptionCaseSensitive() const;
             
         private:
-            string applicationFullPath;
-            vector<string> parameters;
-            vector<string> optionParameters;
-            
-            unsigned currentPosition;
-            bool caseSensitiveMode;
-            string optionPrefix;
-            bool postfixed;
-            
-            void convertOptionPostfixToPrefix();
-            const int findOptionPosition( string option ) const;
-            const string prefixAndPostfixOptionPostfixWhithWhitespace( string parameters ) const;
-            const vector<string> removeNullElement( vector<string> parameters ) const;
-            const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters ) const;
+            class CommandLineImpl;
+            CommandLineImpl* commandLine;
     };
 }
 
