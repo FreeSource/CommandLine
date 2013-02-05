@@ -7,6 +7,7 @@ Building the Project
 
 To build the project type __gmake__ or __make__ from the root project directory.  
 To cleaning up old files type __gmake clean__ or __make clean__ from the root project directory.
+To test the project type __gmake__ or __make__ from the test project directory.
 
 Directory structure
 -------------------
@@ -23,8 +24,8 @@ Directory structure
 
 - __ext:__ *libraries provided by third-party go here.*
 
-- __test:__ *the tests you write (unit tests, fixtures, and functional tests) all go here.*
-
 - __include:__ *this directory holds all header files declarations for the src directory.*
 
 - __src:__ *this directory contains the implementation source files for the project.*
+
+- __test:__ *the tests you write (unit tests, fixtures, and functional tests) all go here.*
