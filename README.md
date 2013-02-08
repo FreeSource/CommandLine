@@ -12,13 +12,13 @@ To test the project type __gmake__ or __make__ from the test project directory.
 Directory structure
 -------------------
 
-- __app:__ *This organizes your application components.*
+- __app:__ *this organizes your application components.*
 
-- __build:__ *directory that are used to hold the built files.*
+- __build:__ *directory used to hold the built files.*
 
-- __build/bin:__ *directory that are used to hold the executable binary files.*
+- __build/bin:__ *directory used to hold the executable binary files.*
 
-- __build/obj:__ *directory that are used to hold the built object files.*
+- __build/obj:__ *directory used to hold the built object files.*
 
 - __doc:__ *this directory holds all the project documentation.*
 
