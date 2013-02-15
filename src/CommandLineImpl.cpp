@@ -30,7 +30,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-#include <util.h>
+#include <charseq.h>
 #include <system.h>
 
 namespace {
@@ -39,6 +39,7 @@ namespace {
 
 namespace environs {
     
+    using namespace util;
     using std::runtime_error;
     
     CommandLine::CommandLineImpl::CommandLineImpl() {
@@ -55,10 +56,6 @@ namespace environs {
             applicationFullPath.clear();
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
         }
-    }
-    
-    const string CommandLine::CommandLineImpl::getCommandLine() const {
-        return applicationFullPath + " " + getAllParameters();
     }
     
     const string CommandLine::CommandLineImpl::getAllParameters() const {
@@ -78,10 +75,6 @@ namespace environs {
         return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
     }
     
-    const string CommandLine::CommandLineImpl::getApplicationFullPath() const {
-        return applicationFullPath;
-    }
-    
     const string CommandLine::CommandLineImpl::getCurrentWorkingDirectory() const {
         try {
             return getCurrentDirectory();
@@ -91,48 +84,12 @@ namespace environs {
         }
     }
     
-    const bool CommandLine::CommandLineImpl::hasParameters() const {
-        return parameters.empty() ? false : true;
-    }
-    
-    const bool CommandLine::CommandLineImpl::hasParameter( const unsigned &position ) const {
-        return position <= parameters.size() && position > 0 ? true : false;
-    }
-    
     const int CommandLine::CommandLineImpl::getParametersNumber() const {
         return parameters.size();
     }
     
     const string CommandLine::CommandLineImpl::getParameter( const unsigned &position ) const {
         return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
-    }
-    
-    void CommandLine::CommandLineImpl::gotoFirstParameter() {
-        currentPosition = 0;
-    }
-    
-    const bool CommandLine::CommandLineImpl::gotoNextParameter() {
-        if ( currentPosition + 1 < parameters.size() ) {
-            ++currentPosition;
-            return true;
-        }
-        return false;
-    }
-    
-    const int CommandLine::CommandLineImpl::getCurrentPosition() const {
-        return parameters.size() ? currentPosition + 1 : 0;
-    }
-    
-    const string CommandLine::CommandLineImpl::getCurrentParameter() const {
-        return getParameter( currentPosition + 1 );
-    }
-    
-    const string CommandLine::CommandLineImpl::getFirstParameter() const {
-        return getParameter( 1 );
-    }
-    
-    const string CommandLine::CommandLineImpl::getLastParameter() const {
-        return getParameter( parameters.size() );
     }
     
     void CommandLine::CommandLineImpl::setOptionPrefix( const string &optionPrefix ) {
@@ -195,14 +152,6 @@ namespace environs {
             }
         }
         return parameters;
-    }
-    
-    const string CommandLine::CommandLineImpl::getOptionPrefix() const {
-        return postfixed ? "" : optionPrefix;
-    }
-    
-    const string CommandLine::CommandLineImpl::getOptionPostfix() const {
-        return postfixed ? optionPrefix : "";
     }
     
     const bool CommandLine::CommandLineImpl::hasOption( const string &option ) const {
@@ -276,9 +225,5 @@ namespace environs {
     
     void CommandLine::CommandLineImpl::optionCaseInsensitive() {
         caseSensitiveMode = false;
-    }
-    
-    const bool CommandLine::CommandLineImpl::isOptionCaseSensitive() const {
-        return caseSensitiveMode;
     }
 }

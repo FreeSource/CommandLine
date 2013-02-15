@@ -30,10 +30,14 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
-
-const vector<string> split( string text, const string &token );
-const string trim( string text );
-
+namespace util {
+    
+    using std::string;
+    using std::vector;
+    
+    const string removeDuplicates( string text, const string &duplicate );
+    const string convertDelimiterToPipe( string text, const string &delimiter );
+    const vector<string> split( string text, const string &delimiter );
+    const string trim( string text );
+}
 #endif

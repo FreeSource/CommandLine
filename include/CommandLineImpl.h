@@ -42,35 +42,15 @@ namespace environs
         public:
             CommandLineImpl();
             
-            const string getCommandLine() const;
-            
             const string getApplicationName() const;
             const string getApplicationPath() const;
-            const string getApplicationFullPath() const;
-            
             const string getCurrentWorkingDirectory() const;
             
-            const bool hasParameters() const;
-            const bool hasParameter( const unsigned &position ) const;
-            
             const int getParametersNumber() const;
-            const string getAllParameters() const;
             const string getParameter( const unsigned &position ) const;
-            
-            void gotoFirstParameter();
-            const bool gotoNextParameter();
-            const int getCurrentPosition() const;
-            
-            const string getCurrentParameter() const;
-            
-            const string getFirstParameter() const;
-            const string getLastParameter() const;
             
             void setOptionPrefix( const string &optionPrefix );
             void setOptionPostfix( const string &optionPostfix );
-            
-            const string getOptionPrefix() const;
-            const string getOptionPostfix() const;
             
             const bool hasOption( const string &option ) const;
             
@@ -79,7 +59,6 @@ namespace environs
             
             void optionCaseSensitive();
             void optionCaseInsensitive();
-            const bool isOptionCaseSensitive() const;
             
         private:
             string applicationFullPath;
@@ -91,6 +70,7 @@ namespace environs
             string optionPrefix;
             bool postfixed;
             
+            const string getAllParameters() const;
             void convertOptionPostfixToPrefix();
             const int findOptionPosition( string option ) const;
             const string prefixAndPostfixOptionPostfixWhithWhitespace( string parameters ) const;

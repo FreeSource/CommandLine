@@ -31,11 +31,12 @@
 #include <sys/sysctl.h>
 #include <libproc.h>
 
-#include <util.h>
-
-using std::runtime_error;
+#include <charseq.h>
 
 namespace {
+    
+    using namespace util;
+    using std::runtime_error;
     
     const int getMaxArgumentSize();
     void readArguments( char *procargs );

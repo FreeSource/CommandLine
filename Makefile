@@ -44,14 +44,9 @@ else
 endif
 
 ifneq (,$(findstring mingw,$(OSTYPE)))
-    FIXPATH = $(subst /,\,$1)
     OSTYPE = Windows
     LIB =
-    RM = del /s /q
 else
-    FIXPATH = $1
-    RM = rm -f
-    
     ifneq (,$(findstring linux,$(OSTYPE)))
         OSTYPE = Linux
         LIB =
@@ -76,7 +71,7 @@ define compile
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: main CommandLine CommandLineImpl system util
+all: main CommandLine CommandLineImpl system charseq
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
 	@strip $(BIN)$(EXEC)
@@ -94,11 +89,11 @@ CommandLineImpl: CommandLineImpl.cpp
 system: system.cpp
 	$(call compile,$@)
 
-util: util.cpp
+charseq: charseq.cpp
 	$(call compile,$@)
 
 .PHONY: clean
 clean:
 	@echo Cleaning...
-	@-$(RM) $(call FIXPATH,$(BIN)*)
-	@-$(RM) $(call FIXPATH,$(OBJS)*.o)
+	@rm -f $(BIN)*.exe
+	@rm -f $(OBJS)*.o

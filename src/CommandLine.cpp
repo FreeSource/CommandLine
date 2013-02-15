@@ -37,14 +37,6 @@ namespace environs {
         delete commandLine;
     }
     
-    const string CommandLine::getCommandLine() const {
-        return commandLine->getCommandLine();
-    }
-    
-    const string CommandLine::getAllParameters() const {
-        return commandLine->getAllParameters();
-    }
-    
     const string CommandLine::getApplicationName() const {
         return commandLine->getApplicationName();
     }
@@ -53,20 +45,8 @@ namespace environs {
         return commandLine->getApplicationPath();
     }
     
-    const string CommandLine::getApplicationFullPath() const {
-        return commandLine->getApplicationFullPath();
-    }
-    
     const string CommandLine::getCurrentWorkingDirectory() const {
         return commandLine->getCurrentWorkingDirectory();
-    }
-    
-    const bool CommandLine::hasParameters() const {
-        return commandLine->hasParameters();
-    }
-    
-    const bool CommandLine::hasParameter( const unsigned &position ) const {
-        return commandLine->hasParameter( position );
     }
     
     const int CommandLine::getParametersNumber() const {
@@ -77,44 +57,12 @@ namespace environs {
         return commandLine->getParameter( position );
     }
     
-    void CommandLine::gotoFirstParameter() {
-        commandLine->gotoFirstParameter();
-    }
-    
-    const bool CommandLine::gotoNextParameter() {
-        return commandLine->gotoNextParameter();
-    }
-    
-    const int CommandLine::getCurrentPosition() const {
-        return commandLine->getCurrentPosition();
-    }
-    
-    const string CommandLine::getCurrentParameter() const {
-        return commandLine->getCurrentParameter();
-    }
-    
-    const string CommandLine::getFirstParameter() const {
-        return commandLine->getFirstParameter();
-    }
-    
-    const string CommandLine::getLastParameter() const {
-        return commandLine->getLastParameter();
-    }
-    
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
         commandLine->setOptionPrefix( optionPrefix );
     }
     
     void CommandLine::setOptionPostfix( const string &optionPostfix ) {
         commandLine->setOptionPostfix( optionPostfix );
-    }
-    
-    const string CommandLine::getOptionPrefix() const {
-        return commandLine->getOptionPrefix();
-    }
-    
-    const string CommandLine::getOptionPostfix() const {
-        return commandLine->getOptionPostfix();
     }
     
     const bool CommandLine::hasOption( const string &option ) const {
@@ -135,9 +83,5 @@ namespace environs {
     
     void CommandLine::optionCaseInsensitive() {
         commandLine->optionCaseInsensitive();
-    }
-    
-    const bool CommandLine::isOptionCaseSensitive() const {
-        return commandLine->isOptionCaseSensitive();
     }
 }

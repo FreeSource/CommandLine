@@ -1,28 +1,11 @@
 9
-1
-7
-9
-C:\tmp\enzo\FreeSource\FreeSource-CommandLine-31b6bf7\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
 myapp.exe
-C:\tmp\enzo\FreeSource\FreeSource-CommandLine-31b6bf7\build\bin
-C:\tmp\enzo\FreeSource\FreeSource-CommandLine-31b6bf7\build\bin\myapp.exe
-C:\tmp\enzo\FreeSource\FreeSource-CommandLine-31b6bf7\test
-yes
-yes
+c:\Documents and Settings\xxx\CommandLine\build\bin
+c:\Documents and Settings\xxx\CommandLine\test
 Mars
-Tested Yet...
-Tested Yet...
-Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getAllParameters
-getCurrentParameter
-Mercury
-getLastParameter
 Earth
 Jupiter
 yes
---
-=
 Earth is the third planet from the Sun
 
-Earth is the third planet from the Sun
-yes
-no
+from the Sun
