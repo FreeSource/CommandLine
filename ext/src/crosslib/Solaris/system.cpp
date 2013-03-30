@@ -103,37 +103,40 @@ namespace {
     }
 }
 
-const string getExecutablePath() {
-    char path[PATH_MAX];
-    if ( realpath( getexecname(), path ) ) {
-        return path;
-    }
-    else {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process executable path." );
-    }
-}
-
-const vector<string> getArguments() {
-    int procFile;
-    vector<string> args;
-    psinfo_t pinfo = getProcessInfo();
+namespace crosslib {
     
-    uintptr_t *arguments = ( uintptr_t* )malloc( pinfo.pr_argc * sizeof ( uintptr_t ) );
-    readArguments( procFile, arguments, pinfo );
-    args = collectArguments( procFile, arguments, pinfo );
-
-    close( procFile );
-    free( arguments );
-    return args;
-}
-
-const string getCurrentDirectory() {
-    char currentDir[PATH_MAX];
-    
-    if ( getcwd( currentDir, PATH_MAX ) != NULL ) {
-        return currentDir;
+    const string getExecutablePath() {
+        char path[PATH_MAX];
+        if ( realpath( getexecname(), path ) ) {
+            return path;
+        }
+        else {
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process executable path." );
+        }
     }
-    else {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
+    
+    const vector<string> getArguments() {
+        int procFile;
+        vector<string> args;
+        psinfo_t pinfo = getProcessInfo();
+        
+        uintptr_t *arguments = ( uintptr_t* )malloc( pinfo.pr_argc * sizeof ( uintptr_t ) );
+        readArguments( procFile, arguments, pinfo );
+        args = collectArguments( procFile, arguments, pinfo );
+
+        close( procFile );
+        free( arguments );
+        return args;
+    }
+    
+    const string getCurrentDirectory() {
+        char currentDir[PATH_MAX];
+        
+        if ( getcwd( currentDir, PATH_MAX ) != NULL ) {
+            return currentDir;
+        }
+        else {
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
+        }
     }
 }

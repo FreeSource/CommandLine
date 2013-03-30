@@ -40,6 +40,7 @@ namespace {
 namespace environs {
     
     using namespace util;
+    using namespace crosslib;
     using std::runtime_error;
     
     CommandLine::CommandLineImpl::CommandLineImpl() {

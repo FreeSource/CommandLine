@@ -29,7 +29,7 @@ CXX = g++
 APPPATH = app
 OBJS = build/obj/
 BIN  = build/bin/
-INCLUDES = -Iinclude -Iext/include
+INCLUDES = -Iinclude -Iext/include/util -Iext/include/crosslib
 
 RES = rc
 OPTFLAGS = -Os
@@ -64,7 +64,7 @@ else
     endif
 endif
 
-vpath % app:src:ext/src:ext/src/$(OSTYPE)
+vpath % app:src:ext/src/util:ext/src/crosslib/$(OSTYPE)
 
 define compile
     @echo $(subst _$(OSTYPE),,$1)

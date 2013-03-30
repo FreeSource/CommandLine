@@ -30,11 +30,13 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
-
-const string getExecutablePath();
-const vector<string> getArguments();
-const string getCurrentDirectory();
-
+namespace crosslib {
+    
+    using std::string;
+    using std::vector;
+    
+    const string getExecutablePath();
+    const vector<string> getArguments();
+    const string getCurrentDirectory();
+}
 #endif

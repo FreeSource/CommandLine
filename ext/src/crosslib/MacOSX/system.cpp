@@ -70,58 +70,61 @@ namespace {
     }
 }
 
-const string getExecutablePath() {
-    char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
-    return proc_pidpath( getpid(), pathbuf, sizeof( pathbuf ) ) ? pathbuf : "";
-}
-
-const vector<string> getArguments() {
-    char *procargs = ( char * )malloc( getMaxArgumentSize() );
-    readArguments( procargs );
+namespace crosslib {
     
-    int nargs;
-    size_t size = ( size_t )getMaxArgumentSize();
-    memcpy( &nargs, procargs, sizeof( nargs ) );
-    char *ptArgs;
-    ptArgs = procargs + sizeof( nargs );
-    
-    bool flg = false;
-    for ( ; ptArgs < &procargs[size]; ptArgs++ ) {
-        if ( flg == true && *ptArgs != '\0' ) {
-            break;
-        }
-        else if ( flg == false && *ptArgs == '\0' ) {
-            flg = true;
-        }
+    const string getExecutablePath() {
+        char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
+        return proc_pidpath( getpid(), pathbuf, sizeof( pathbuf ) ) ? pathbuf : "";
     }
     
-    string concatArgs;
-    for ( int cArgs = 0; cArgs < nargs && ptArgs < &procargs[size]; ptArgs++ ) {
-        if ( *ptArgs == '\0' ) {
-            cArgs++;
-            concatArgs += ' ';
+    const vector<string> getArguments() {
+        char *procargs = ( char * )malloc( getMaxArgumentSize() );
+        readArguments( procargs );
+        
+        int nargs;
+        size_t size = ( size_t )getMaxArgumentSize();
+        memcpy( &nargs, procargs, sizeof( nargs ) );
+        char *ptArgs;
+        ptArgs = procargs + sizeof( nargs );
+        
+        bool flg = false;
+        for ( ; ptArgs < &procargs[size]; ptArgs++ ) {
+            if ( flg == true && *ptArgs != '\0' ) {
+                break;
+            }
+            else if ( flg == false && *ptArgs == '\0' ) {
+                flg = true;
+            }
+        }
+        
+        string concatArgs;
+        for ( int cArgs = 0; cArgs < nargs && ptArgs < &procargs[size]; ptArgs++ ) {
+            if ( *ptArgs == '\0' ) {
+                cArgs++;
+                concatArgs += ' ';
+            }
+            else {
+                concatArgs += *ptArgs;
+            }
+        }
+        
+        vector<string> args;
+        args = split( concatArgs, " " );
+        if ( args.size() ) {
+            args.erase( args.begin() );
+        }
+        
+        return args;
+    }
+    
+    const string getCurrentDirectory() {
+        char currentDir[PATH_MAX];
+        
+        if ( getcwd( currentDir, PATH_MAX ) != NULL ) {
+            return currentDir;
         }
         else {
-            concatArgs += *ptArgs;
+            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
         }
-    }
-    
-    vector<string> args;
-    args = split( concatArgs, " " );
-    if ( args.size() ) {
-        args.erase( args.begin() );
-    }
-    
-    return args;
-}
-
-const string getCurrentDirectory() {
-    char currentDir[PATH_MAX];
-    
-    if ( getcwd( currentDir, PATH_MAX ) != NULL ) {
-        return currentDir;
-    }
-    else {
-        throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + "Can't get process current working directory." );
     }
 }
