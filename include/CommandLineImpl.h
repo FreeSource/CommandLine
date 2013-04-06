@@ -73,7 +73,7 @@ namespace environs
             const string getAllParameters() const;
             void convertOptionPostfixToPrefix();
             const int findOptionPosition( string option ) const;
-            const string prefixAndPostfixOptionPostfixWhithWhitespace( string parameters ) const;
+            const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters ) const;
             const vector<string> removeNullElement( vector<string> parameters ) const;
             const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters ) const;
     };

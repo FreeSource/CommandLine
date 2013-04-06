@@ -108,7 +108,7 @@ namespace environs {
     }
     
     void CommandLine::CommandLineImpl::convertOptionPostfixToPrefix() {
-        vector<string> parameters = split( prefixAndPostfixOptionPostfixWhithWhitespace( getAllParameters() ), " " );
+        vector<string> parameters = split( prefixAndPostfixOptionPostfixWithWhitespace( getAllParameters() ), " " );
         parameters = removeNullElement( parameters );
         parameters = removeOptionPostfixDuplicityBetweenOptionAndValue( parameters );
         
@@ -125,7 +125,7 @@ namespace environs {
         optionParameters = parameters;
     }
     
-    const string CommandLine::CommandLineImpl::prefixAndPostfixOptionPostfixWhithWhitespace( string parameters ) const {
+    const string CommandLine::CommandLineImpl::prefixAndPostfixOptionPostfixWithWhitespace( string parameters ) const {
         size_t found = parameters.find( optionPrefix, 0 );
         while ( found != string::npos ) {
             parameters.replace( parameters.find( optionPrefix, found ), optionPrefix.size(), " " + optionPrefix + " " );
