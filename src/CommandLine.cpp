@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
     
-    File: CommandLineImpl.cpp
+    File: CommandLine.cpp
     Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
@@ -40,7 +40,6 @@ namespace {
     using std::runtime_error;
     
     const int OPTION_NOT_FOUND = -1;
-    
     
     // PRIVATE:
     string m_applicationFullPath;

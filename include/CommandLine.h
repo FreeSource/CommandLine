@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
      
-    File: CommandLineImpl.h
+    File: CommandLine.h
     Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
