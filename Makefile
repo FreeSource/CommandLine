@@ -71,7 +71,7 @@ define compile
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: main CommandLine CommandLineImpl system charseq
+all: main CommandLine system charseq
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
 	@strip $(BIN)$(EXEC)
@@ -81,9 +81,6 @@ main: main.cpp
 	$(call compile,$@)
 
 CommandLine: CommandLine.cpp
-	$(call compile,$@)
-    
-CommandLineImpl: CommandLineImpl.cpp
 	$(call compile,$@)
 
 system: system.cpp

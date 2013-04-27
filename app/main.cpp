@@ -35,15 +35,15 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::runtime_error;
+using environs::CommandLine;
 
 int main() {
     try {
-        environs::CommandLine commandLine;
+        CommandLine commandLine;
         string option;
-        cout.precision( 9 );
         
-        for ( int index = 0; index <= commandLine.getParametersNumber(); ++index )
-        {
+        for ( int index = 0; index <= commandLine.getParametersNumber(); ++index ) {
+            
             option = commandLine.getParameter( index + 1 );
             
             if ( commandLine.getParameter( index ) == "getParametersNumber" ) {

@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
      
-    File: CommandLine.h
+    File: CommandLineImpl.h
     Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
@@ -30,14 +30,14 @@
 
 #include <string>
 
-namespace environs
-{
+namespace environs {
+    
     using std::string;
     
     class CommandLine {
+        
         public:
             CommandLine();
-            ~CommandLine();
             
             const string getApplicationName() const;
             const string getApplicationPath() const;
@@ -56,10 +56,6 @@ namespace environs
             
             void optionCaseSensitive();
             void optionCaseInsensitive();
-            
-        private:
-            class CommandLineImpl;
-            CommandLineImpl* commandLine;
     };
 }
 
