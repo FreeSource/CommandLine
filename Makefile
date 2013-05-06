@@ -50,17 +50,23 @@ else
     ifneq (,$(findstring linux,$(OSTYPE)))
         OSTYPE = Linux
         LIB =
-    else ifneq (,$(findstring freebsd,$(OSTYPE)))
-        OSTYPE = FreeBSD
-        LIB =
-    else ifneq (,$(findstring solaris,$(OSTYPE)))
-        OSTYPE = Solaris
-        LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
-    else ifneq (,$(findstring darwin,$(OSTYPE)))
-        OSTYPE = MacOSX
-        LIB =
     else
-        $(error Operating System not found)
+        ifneq (,$(findstring freebsd,$(OSTYPE)))
+            OSTYPE = FreeBSD
+            LIB =
+        else
+            ifneq (,$(findstring solaris,$(OSTYPE)))
+                OSTYPE = Solaris
+                LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
+            else
+                ifneq (,$(findstring darwin,$(OSTYPE)))
+                    OSTYPE = MacOSX
+                    LIB =
+                else
+                    $(error Operating System not found)
+                endif
+            endif
+        endif
     endif
 endif
 
