@@ -33,7 +33,7 @@ INCLUDES = -Iinclude -Iext/include/util -Iext/include/crosslib
 
 RES = rc
 OPTFLAGS = -Os
-CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
+CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors
 OSTYPE = $(shell gcc -dumpmachine)
 EXEC = myapp.exe
 
