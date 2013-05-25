@@ -28,71 +28,31 @@
 CXX = g++
 APPPATH = app
 OBJS = build/obj/
+LIB = ext/lib/
 BIN  = build/bin/
-INCLUDES = -Iinclude -Iext/include/util -Iext/include/crosslib
+INCLUDES = -Iinclude -Iext/include
 
-RES = rc
 OPTFLAGS = -Os
 CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors
-OSTYPE = $(shell gcc -dumpmachine)
 EXEC = myapp.exe
 
-ifneq (,$(findstring $(firstword $(subst -, ,$(shell gcc -dumpmachine))),mingw32 i686 i586 i386))
-    BITS = -m32
-else 
-    BITS = -m64
-endif
-
-ifneq (,$(findstring mingw,$(OSTYPE)))
-    OSTYPE = Windows
-    LIB =
-else
-    ifneq (,$(findstring linux,$(OSTYPE)))
-        OSTYPE = Linux
-        LIB =
-    else
-        ifneq (,$(findstring freebsd,$(OSTYPE)))
-            OSTYPE = FreeBSD
-            LIB =
-        else
-            ifneq (,$(findstring solaris,$(OSTYPE)))
-                OSTYPE = Solaris
-                LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
-            else
-                ifneq (,$(findstring darwin,$(OSTYPE)))
-                    OSTYPE = MacOSX
-                    LIB =
-                else
-                    $(error Operating System not found)
-                endif
-            endif
-        endif
-    endif
-endif
-
-vpath % app:src:ext/src/util:ext/src/crosslib/$(OSTYPE)
+vpath % app:src
 
 define compile
-    @echo $(subst _$(OSTYPE),,$1)
+    @echo $1
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: main CommandLine system charseq
+all: main CommandLine
 	@echo Linking...
-	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)*.o $(LIB) $(CFLAGS)
+	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(LIB)* $(CFLAGS)
 	@strip $(BIN)$(EXEC)
 
 main: main.cpp
-	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
+	@echo Compiling...
 	$(call compile,$@)
 
 CommandLine: CommandLine.cpp
-	$(call compile,$@)
-
-system: system.cpp
-	$(call compile,$@)
-
-charseq: charseq.cpp
 	$(call compile,$@)
 
 .PHONY: clean

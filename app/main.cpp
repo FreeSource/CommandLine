@@ -42,12 +42,12 @@ int main() {
         CommandLine commandLine;
         string option;
         
-        for ( int index = 0; index <= commandLine.getParametersNumber(); ++index ) {
+        for ( int index = 0; index <= commandLine.size(); ++index ) {
             
             option = commandLine.getParameter( index + 1 );
             
-            if ( commandLine.getParameter( index ) == "getParametersNumber" ) {
-                cout << commandLine.getParametersNumber() << endl;
+            if ( commandLine.getParameter( index ) == "size" ) {
+                cout << commandLine.size() << endl;
             }
             else if ( commandLine.getParameter( index ) == "getApplicationName" ) {
                 cout << commandLine.getApplicationName() << endl;
