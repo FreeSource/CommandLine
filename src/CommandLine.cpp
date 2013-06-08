@@ -41,7 +41,7 @@ namespace {
     
     const int OPTION_NOT_FOUND = -1;
     
-    struct self{
+    struct self {
         string applicationFullPath;
         vector<string> parameters;
         vector<string> optionParameters;
