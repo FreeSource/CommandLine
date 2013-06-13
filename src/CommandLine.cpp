@@ -41,16 +41,15 @@ namespace {
     
     const int OPTION_NOT_FOUND = -1;
     
-    struct self {
-        string applicationFullPath;
-        vector<string> parameters;
-        vector<string> optionParameters;
-        
-        unsigned currentPosition;
-        bool caseSensitiveMode;
-        string optionPrefix;
-        bool postfixed;
-    } self;
+    // PRIVATE:
+    string applicationFullPath;
+    vector<string> parameters;
+    vector<string> optionParameters;
+    
+    unsigned currentPosition;
+    bool caseSensitiveMode;
+    string optionPrefix;
+    bool postfixed;
     
     const string getAllParameters();
     void convertOptionPostfixToPrefix();
@@ -61,28 +60,28 @@ namespace {
     
     const string getAllParameters() {
         string parameters;
-        for ( unsigned index = 0; index < self.parameters.size(); ++index ) {
-            parameters.append( self.parameters.at( index ) );
-            parameters.append( index + 1 == self.parameters.size() ? "" : " " );
+        for ( unsigned index = 0; index < ::parameters.size(); ++index ) {
+            parameters.append( ::parameters.at( index ) );
+            parameters.append( index + 1 == ::parameters.size() ? "" : " " );
         }
         return parameters;
     }
     
     const int findOptionPosition( string option ) {
         if ( !option.empty() ) {
-            if ( !self.caseSensitiveMode ) {
+            if ( !caseSensitiveMode ) {
                 transform( option.begin(), option.end(), option.begin(), ::tolower );
             }
             
             string parameter;
-            for ( unsigned index = 0; index < self.optionParameters.size(); ++index ) {
-                parameter = self.optionParameters.at( index );
+            for ( unsigned index = 0; index < optionParameters.size(); ++index ) {
+                parameter = optionParameters.at( index );
                 
-                if ( !self.caseSensitiveMode ) {
+                if ( !caseSensitiveMode ) {
                     transform( parameter.begin(), parameter.end(), parameter.begin(), ::tolower );
                 }
                 
-                if ( self.optionPrefix + option == parameter ) {
+                if ( optionPrefix + option == parameter ) {
                     return index;
                 }
             }
@@ -96,21 +95,21 @@ namespace {
         parameters = removeOptionPostfixDuplicityBetweenOptionAndValue( parameters );
         
         for ( unsigned position = 0; position < parameters.size(); ++position ) {
-            if ( position > 0 && parameters.at( position ) == self.optionPrefix ) {
-                if ( parameters.at( position - 1 ).find( self.optionPrefix ) == string::npos ) {
-                    parameters.at( position - 1 ) = self.optionPrefix + parameters.at( position - 1 );
+            if ( position > 0 && parameters.at( position ) == optionPrefix ) {
+                if ( parameters.at( position - 1 ).find( optionPrefix ) == string::npos ) {
+                    parameters.at( position - 1 ) = optionPrefix + parameters.at( position - 1 );
                 }
                 
                 parameters.erase( parameters.begin() + position );
                 --position;
             }
         }
-        self.optionParameters = parameters;
+        optionParameters = parameters;
     }
     
     const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters ) {
         for ( unsigned position = 0; position < parameters.size(); ++position ) {
-            if ( position + 1 < parameters.size() && parameters.at( position ) == self.optionPrefix && parameters.at( position + 1 ) == self.optionPrefix ) {
+            if ( position + 1 < parameters.size() && parameters.at( position ) == optionPrefix && parameters.at( position + 1 ) == optionPrefix ) {
                 parameters.erase( parameters.begin() + position );
                 --position;
             }
@@ -119,11 +118,11 @@ namespace {
     }
     
     const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters ) {
-        size_t found = parameters.find( self.optionPrefix, 0 );
+        size_t found = parameters.find( optionPrefix, 0 );
         while ( found != string::npos ) {
-            parameters.replace( parameters.find( self.optionPrefix, found ), self.optionPrefix.size(), " " + self.optionPrefix + " " );
-            found += 2 + self.optionPrefix.size();
-            found = parameters.find( self.optionPrefix, found );
+            parameters.replace( parameters.find( optionPrefix, found ), optionPrefix.size(), " " + optionPrefix + " " );
+            found += 2 + optionPrefix.size();
+            found = parameters.find( optionPrefix, found );
         }
         return parameters;
     }
@@ -143,26 +142,26 @@ namespace environs {
     
     CommandLine::CommandLine() {
         try {
-            self.currentPosition = 0;
-            self.caseSensitiveMode = true;
+            currentPosition = 0;
+            caseSensitiveMode = true;
             
-            self.applicationFullPath = getExecutablePath();
-            self.parameters = getArguments();
-            self.optionParameters = self.parameters;
+            applicationFullPath = getExecutablePath();
+            parameters = getArguments();
+            optionParameters = parameters;
         }
         catch ( runtime_error &error ) {
             // Clean up all previous efforts...
-            self.applicationFullPath.clear();
+            applicationFullPath.clear();
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
         }
     }
     
     const string CommandLine::getApplicationName() const {
-        return self.applicationFullPath.substr( self.applicationFullPath.find_last_of( "/\\" ) + 1U );
+        return applicationFullPath.substr( applicationFullPath.find_last_of( "/\\" ) + 1U );
     }
     
     const string CommandLine::getApplicationPath() const {
-        return self.applicationFullPath.substr( 0, self.applicationFullPath.find_last_of( "/\\" ) );
+        return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
     }
     
     const string CommandLine::getCurrentWorkingDirectory() const {
@@ -175,23 +174,23 @@ namespace environs {
     }
     
     const int CommandLine::size() const {
-        return self.parameters.size();
+        return parameters.size();
     }
     
     const string CommandLine::getParameter( const unsigned &position ) const {
-        return position <= self.parameters.size() && position > 0 ? self.parameters.at( position - 1 ) : "";
+        return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
     }
     
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
-        self.postfixed = false;
-        self.optionPrefix = optionPrefix;
-        self.optionParameters = self.parameters;
+        postfixed = false;
+        ::optionPrefix = optionPrefix;
+        optionParameters = parameters;
     }
     
     void CommandLine::setOptionPostfix( const string &optionPostfix ) {
         if ( !optionPostfix.empty() ) {
-            self.postfixed = true;
-            self.optionPrefix = optionPostfix;
+            postfixed = true;
+            optionPrefix = optionPostfix;
             convertOptionPostfixToPrefix();
         }
     }
@@ -202,15 +201,15 @@ namespace environs {
     
     const string CommandLine::getOptionValue( const string &option ) const {
         int index = findOptionPosition( option );
-        if ( index != OPTION_NOT_FOUND && unsigned( ++index ) < self.optionParameters.size() ) {
-            if ( self.optionPrefix.empty() ) {
-                return self.optionParameters.at( index );
+        if ( index != OPTION_NOT_FOUND && unsigned( ++index ) < optionParameters.size() ) {
+            if ( optionPrefix.empty() ) {
+                return optionParameters.at( index );
             }
             
-            size_t found = self.optionParameters.at( index ).find( self.optionPrefix );
+            size_t found = optionParameters.at( index ).find( optionPrefix );
             
             if ( found == string::npos || found > 0 ) {
-                return self.optionParameters.at( index );
+                return optionParameters.at( index );
             }
         }
         return "";
@@ -221,17 +220,17 @@ namespace environs {
         string parameters;
         if ( index != OPTION_NOT_FOUND ) {
             size_t found;
-            for ( ++index; unsigned( index ) < self.optionParameters.size(); ++index ) {
-                found = self.optionPrefix.empty() || self.optionParameters.at( index ) == self.optionPrefix ? string::npos : self.optionParameters.at( index ).find( self.optionPrefix );
+            for ( ++index; unsigned( index ) < optionParameters.size(); ++index ) {
+                found = optionPrefix.empty() || optionParameters.at( index ) == optionPrefix ? string::npos : optionParameters.at( index ).find( optionPrefix );
                 
                 if ( found == string::npos || found > 0 ) {
-                    parameters += self.optionParameters.at( index );
+                    parameters += optionParameters.at( index );
                 }
                 else {
                     break;
                 }
                 
-                if ( unsigned( index + 1 ) < self.optionParameters.size() ) {
+                if ( unsigned( index + 1 ) < optionParameters.size() ) {
                     parameters += " ";
                 }
             }
@@ -240,10 +239,10 @@ namespace environs {
     }
     
     void CommandLine::optionCaseSensitive() {
-        self.caseSensitiveMode = true;
+        caseSensitiveMode = true;
     }
     
     void CommandLine::optionCaseInsensitive() {
-        self.caseSensitiveMode = false;
+        caseSensitiveMode = false;
     }
 }
