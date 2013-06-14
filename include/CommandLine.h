@@ -43,7 +43,7 @@ namespace environs {
             const string getApplicationPath() const;
             const string getCurrentWorkingDirectory() const;
             
-            const int size() const;
+            const int getParametersNumber() const;
             const string getParameter( const unsigned &position ) const;
             
             void setOptionPrefix( const string &optionPrefix );

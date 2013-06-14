@@ -173,7 +173,7 @@ namespace environs {
         }
     }
     
-    const int CommandLine::size() const {
+    const int CommandLine::getParametersNumber() const {
         return parameters.size();
     }
     
