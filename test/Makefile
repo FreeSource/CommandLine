@@ -30,7 +30,7 @@ OUTPUT = result.txt
 
 all :
 	@echo Autotest...
-	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune size > $(OUTPUT)
+	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getParametersNumber > $(OUTPUT)
 	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getApplicationName >> $(OUTPUT)
 	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getApplicationPath >> $(OUTPUT)
 	@"$(EXEC)" Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCurrentWorkingDirectory >> $(OUTPUT)
