@@ -60,9 +60,9 @@ namespace {
     
     const string getAllParameters() {
         string parameters;
-        for ( unsigned index = 0; index < ::parameters.size(); ++index ) {
-            parameters.append( ::parameters.at( index ) );
-            parameters.append( index + 1 == ::parameters.size() ? "" : " " );
+        for ( unsigned position = 0; position < ::parameters.size(); ++position ) {
+            parameters.append( ::parameters.at( position ) );
+            parameters.append( position + 1 == ::parameters.size() ? "" : " " );
         }
         return parameters;
     }
@@ -74,15 +74,15 @@ namespace {
             }
             
             string parameter;
-            for ( unsigned index = 0; index < optionParameters.size(); ++index ) {
-                parameter = optionParameters.at( index );
+            for ( unsigned position = 0; position < optionParameters.size(); ++position ) {
+                parameter = optionParameters.at( position );
                 
                 if ( !caseSensitiveMode ) {
                     transform( parameter.begin(), parameter.end(), parameter.begin(), ::tolower );
                 }
                 
                 if ( optionPrefix + option == parameter ) {
-                    return index;
+                    return position;
                 }
             }
         }
@@ -148,8 +148,9 @@ namespace environs {
             applicationFullPath = getExecutablePath();
             parameters = getArguments();
             optionParameters = parameters;
-        }
-        catch ( runtime_error &error ) {
+            
+        } catch ( runtime_error &error ) {
+            
             // Clean up all previous efforts...
             applicationFullPath.clear();
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
@@ -167,8 +168,7 @@ namespace environs {
     const string CommandLine::getCurrentWorkingDirectory() const {
         try {
             return getCurrentDirectory();
-        }
-        catch ( runtime_error &error ) {
+        } catch ( runtime_error &error ) {
             throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
         }
     }
@@ -200,37 +200,36 @@ namespace environs {
     }
     
     const string CommandLine::getOptionValue( const string &option ) const {
-        int index = findOptionPosition( option );
-        if ( index != OPTION_NOT_FOUND && unsigned( ++index ) < optionParameters.size() ) {
+        int position = findOptionPosition( option );
+        if ( position != OPTION_NOT_FOUND && unsigned( ++position ) < optionParameters.size() ) {
             if ( optionPrefix.empty() ) {
-                return optionParameters.at( index );
+                return optionParameters.at( position );
             }
             
-            size_t found = optionParameters.at( index ).find( optionPrefix );
+            size_t found = optionParameters.at( position ).find( optionPrefix );
             
             if ( found == string::npos || found > 0 ) {
-                return optionParameters.at( index );
+                return optionParameters.at( position );
             }
         }
         return "";
     }
     
     const string CommandLine::getOptionLongValue( const string &option ) const {
-        int index = findOptionPosition( option );
+        int position = findOptionPosition( option );
         string parameters;
-        if ( index != OPTION_NOT_FOUND ) {
+        if ( position != OPTION_NOT_FOUND ) {
             size_t found;
-            for ( ++index; unsigned( index ) < optionParameters.size(); ++index ) {
-                found = optionPrefix.empty() || optionParameters.at( index ) == optionPrefix ? string::npos : optionParameters.at( index ).find( optionPrefix );
+            for ( ++position; unsigned( position ) < optionParameters.size(); ++position ) {
+                found = optionPrefix.empty() || optionParameters.at( position ) == optionPrefix ? string::npos : optionParameters.at( position ).find( optionPrefix );
                 
                 if ( found == string::npos || found > 0 ) {
-                    parameters += optionParameters.at( index );
-                }
-                else {
+                    parameters += optionParameters.at( position );
+                } else {
                     break;
                 }
                 
-                if ( unsigned( index + 1 ) < optionParameters.size() ) {
+                if ( unsigned( position + 1 ) < optionParameters.size() ) {
                     parameters += " ";
                 }
             }

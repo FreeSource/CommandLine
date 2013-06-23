@@ -42,50 +42,50 @@ int main() {
         CommandLine commandLine;
         string option;
         
-        for ( int parameterPosition = 0; parameterPosition <= commandLine.getParametersNumber(); ++parameterPosition ) {
+        for ( int position = 0; position <= commandLine.getParametersNumber(); ++position ) {
             
-            option = commandLine.getParameter( parameterPosition + 1 );
+            option = commandLine.getParameter( position + 1 );
             
-            if ( commandLine.getParameter( parameterPosition ) == "getParametersNumber" ) {
+            if ( commandLine.getParameter( position ) == "getParametersNumber" ) {
                 cout << commandLine.getParametersNumber() << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getApplicationName" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getApplicationName" ) {
                 cout << commandLine.getApplicationName() << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getApplicationPath" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getApplicationPath" ) {
                 cout << commandLine.getApplicationPath() << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getCurrentWorkingDirectory" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getCurrentWorkingDirectory" ) {
                 cout << commandLine.getCurrentWorkingDirectory() << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getParameter" ) {
-                cout << commandLine.getParameter( atoi( commandLine.getParameter( parameterPosition + 1 ).c_str() ) ) << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "setOptionPrefix" ) {
-                commandLine.setOptionPrefix( commandLine.getParameter( parameterPosition + 1 ) );
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "setOptionPostfix" ) {
-                commandLine.setOptionPostfix( commandLine.getParameter( parameterPosition + 1 ) );
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "hasOption" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getParameter" ) {
+                cout << commandLine.getParameter( atoi( commandLine.getParameter( position + 1 ).c_str() ) ) << endl;
+                
+            } else if ( commandLine.getParameter( position ) == "setOptionPrefix" ) {
+                commandLine.setOptionPrefix( commandLine.getParameter( position + 1 ) );
+                
+            } else if ( commandLine.getParameter( position ) == "setOptionPostfix" ) {
+                commandLine.setOptionPostfix( commandLine.getParameter( position + 1 ) );
+                
+            } else if ( commandLine.getParameter( position ) == "hasOption" ) {
                 commandLine.hasOption( option ) ? cout << "yes" << endl : cout << "no" << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getOptionValue" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getOptionValue" ) {
                 cout << commandLine.getOptionValue( option ) << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "getOptionLongValue" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "getOptionLongValue" ) {
                 cout << commandLine.getOptionLongValue( option ) << endl;
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "optionCaseSensitive" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "optionCaseSensitive" ) {
                 commandLine.optionCaseSensitive();
-            }
-            else if ( commandLine.getParameter( parameterPosition ) == "optionCaseInsensitive" ) {
+                
+            } else if ( commandLine.getParameter( position ) == "optionCaseInsensitive" ) {
                 commandLine.optionCaseInsensitive();
             }
         }
         return EXIT_SUCCESS;
-    }
-    catch ( runtime_error &error ) {
+        
+    } catch ( runtime_error &error ) {
         // Custom user messages...
         
         // Log messages...
