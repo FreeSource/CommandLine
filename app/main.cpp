@@ -31,13 +31,14 @@
 #include <cstdlib>
 #include <stdexcept>
 
-using std::string;
-using std::cout;
-using std::endl;
-using std::runtime_error;
-using environs::CommandLine;
-
 int main() {
+    
+    using std::string;
+    using std::cout;
+    using std::endl;
+    using std::runtime_error;
+    using environs::CommandLine;
+    
     try {
         CommandLine commandLine;
         string option;
