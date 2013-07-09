@@ -30,7 +30,8 @@ APPPATH = app
 OBJS = build/obj/
 BIN  = build/bin/
 INCLUDES = -Iinclude -Iext/include
-LIB = ext/lib/
+LOCALLIB = ext/lib/
+LIB =
 
 RES = rc
 OPTFLAGS = -Os
@@ -76,7 +77,7 @@ endef
 
 all: main CommandLine
 	@echo Linking...
-	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(LIB)* $(CFLAGS)
+	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(LOCALLIB)* $(LIB) $(CFLAGS)
 	@strip $(BIN)$(EXEC)
 
 main: main.cpp
