@@ -28,18 +28,49 @@
 CXX = g++
 APPPATH = app
 OBJS = build/obj/
-LIB = ext/lib/
 BIN  = build/bin/
 INCLUDES = -Iinclude -Iext/include
+LIB = ext/lib/
 
+RES = rc
 OPTFLAGS = -Os
 CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors
+OSTYPE = $(shell gcc -dumpmachine)
 EXEC = myapp.exe
+
+ifneq (,$(findstring $(firstword $(subst -, ,$(shell gcc -dumpmachine))),mingw32 i686 i586 i386))
+    BITS = -m32
+else 
+    BITS = -m64
+endif
+
+ifneq (,$(findstring mingw,$(OSTYPE)))
+    OSTYPE = Windows
+    #LIB := ${LIB}
+else
+    ifneq (,$(findstring linux,$(OSTYPE)))
+        OSTYPE = Linux
+    else
+        ifneq (,$(findstring freebsd,$(OSTYPE)))
+            OSTYPE = FreeBSD
+        else
+            ifneq (,$(findstring solaris,$(OSTYPE)))
+                OSTYPE = Solaris
+            else
+                ifneq (,$(findstring darwin,$(OSTYPE)))
+                    OSTYPE = MacOSX
+                else
+                    $(error Operating System not found)
+                endif
+            endif
+        endif
+    endif
+endif
 
 vpath % app:src
 
 define compile
-    @echo $1
+    @echo $(subst _$(OSTYPE),,$1)
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
@@ -49,7 +80,7 @@ all: main CommandLine
 	@strip $(BIN)$(EXEC)
 
 main: main.cpp
-	@echo Compiling...
+	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
 	$(call compile,$@)
 
 CommandLine: CommandLine.cpp
