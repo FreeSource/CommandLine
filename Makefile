@@ -75,7 +75,7 @@ define compile
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: main CommandLine
+all: clean main CommandLine
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(LOCALLIB)* $(LIB) $(CFLAGS)
 	@strip $(BIN)$(EXEC)

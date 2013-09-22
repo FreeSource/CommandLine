@@ -157,12 +157,29 @@ namespace environs {
         }
     }
     
+    const string CommandLine::getCommandLine() const {
+        return applicationFullPath + " " + getAllParameters();
+    }
+    
+    const string CommandLine::getAllParameters() const {
+        string parameters;
+        for ( unsigned index = 0; index < ::parameters.size(); ++index ) {
+            parameters.append( ::parameters.at( index ) );
+            parameters.append( index + 1 == ::parameters.size() ? "" : " " );
+        }
+        return parameters;
+    }
+    
     const string CommandLine::getApplicationName() const {
         return applicationFullPath.substr( applicationFullPath.find_last_of( "/\\" ) + 1U );
     }
     
     const string CommandLine::getApplicationPath() const {
         return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
+    }
+    
+    const string CommandLine::getApplicationFullPath() const {
+        return applicationFullPath;
     }
     
     const string CommandLine::getCurrentWorkingDirectory() const {
@@ -173,12 +190,48 @@ namespace environs {
         }
     }
     
+    const bool CommandLine::hasParameters() const {
+        return parameters.empty() ? false : true;
+    }
+    
+    const bool CommandLine::hasParameter( const unsigned &position ) const {
+        return position <= parameters.size() && position > 0 ? true : false;
+    }
+    
     const int CommandLine::getParametersNumber() const {
         return parameters.size();
     }
     
     const string CommandLine::getParameter( const unsigned &position ) const {
         return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
+    }
+    
+    void CommandLine::gotoFirstParameter() {
+        currentPosition = 0;
+    }
+    
+    const bool CommandLine::gotoNextParameter() {
+        if ( currentPosition + 1 < parameters.size() ) {
+            ++currentPosition;
+            return true;
+        }
+        return false;
+    }
+    
+    const int CommandLine::getCurrentPosition() const {
+        return parameters.size() ? currentPosition + 1 : 0;
+    }
+    
+    const string CommandLine::getCurrentParameter() const {
+        return getParameter( currentPosition + 1 );
+    }
+    
+    const string CommandLine::getFirstParameter() const {
+        return getParameter( 1 );
+    }
+    
+    const string CommandLine::getLastParameter() const {
+        return getParameter( parameters.size() );
     }
     
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
@@ -193,6 +246,14 @@ namespace environs {
             optionPrefix = optionPostfix;
             convertOptionPostfixToPrefix();
         }
+    }
+    
+    const string CommandLine::getOptionPrefix() const {
+        return postfixed ? "" : optionPrefix;
+    }
+    
+    const string CommandLine::getOptionPostfix() const {
+        return postfixed ? optionPrefix : "";
     }
     
     const bool CommandLine::hasOption( const string &option ) const {
@@ -243,5 +304,9 @@ namespace environs {
     
     void CommandLine::optionCaseInsensitive() {
         caseSensitiveMode = false;
+    }
+
+    const bool CommandLine::isOptionCaseSensitive() const {
+        return caseSensitiveMode;
     }
 }
