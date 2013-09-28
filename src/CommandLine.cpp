@@ -206,6 +206,14 @@ namespace environs {
         return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
     }
     
+    const int CommandLine::getParameterAsInteger( const unsigned &position ) const {
+        return atoi( getParameter( position ).c_str() );
+    }
+    
+    const double CommandLine::getParameterAsFloat( const unsigned &position ) const {
+        return atof( getParameter( position ).c_str() );
+    }
+    
     void CommandLine::gotoFirstParameter() {
         currentPosition = 0;
     }
@@ -226,12 +234,36 @@ namespace environs {
         return getParameter( currentPosition + 1 );
     }
     
+    const int CommandLine::getCurrentParameterAsInteger() const {
+        return getParameterAsInteger( currentPosition + 1 );
+    }
+    
+    const double CommandLine::getCurrentParameterAsFloat() const {
+        return getParameterAsFloat( currentPosition + 1 );
+    }
+    
     const string CommandLine::getFirstParameter() const {
         return getParameter( 1 );
     }
     
+    const int CommandLine::getFirstParameterAsInteger() const {
+        return getParameterAsInteger( 1 );
+    }
+    
+    const double CommandLine::getFirstParameterAsFloat() const {
+        return getParameterAsFloat( 1 );
+    }
+    
     const string CommandLine::getLastParameter() const {
         return getParameter( parameters.size() );
+    }
+    
+    const int CommandLine::getLastParameterAsInteger() const {
+        return getParameterAsInteger( parameters.size() );
+    }
+    
+    const double CommandLine::getLastParameterAsFloat() const {
+        return getParameterAsFloat( parameters.size() );
     }
     
     void CommandLine::setOptionPrefix( const string &optionPrefix ) {
@@ -258,6 +290,14 @@ namespace environs {
     
     const bool CommandLine::hasOption( const string &option ) const {
         return findOptionPosition( option ) != OPTION_NOT_FOUND ? true : false;
+    }
+    
+    const int CommandLine::getOptionValueAsInteger( const string &option ) const {
+        return atoi( getOptionValue( option ).c_str() );
+    }
+    
+    const double CommandLine::getOptionValueAsFloat( const string &option ) const {
+        return atof( getOptionValue( option ).c_str() );
     }
     
     const string CommandLine::getOptionValue( const string &option ) const {
@@ -305,7 +345,7 @@ namespace environs {
     void CommandLine::optionCaseInsensitive() {
         caseSensitiveMode = false;
     }
-
+    
     const bool CommandLine::isOptionCaseSensitive() const {
         return caseSensitiveMode;
     }

@@ -53,15 +53,24 @@ namespace environs {
             const int getParametersNumber() const;
             const string getAllParameters() const;
             const string getParameter( const unsigned &position ) const;
+            const int getParameterAsInteger( const unsigned &position ) const;
+            const double getParameterAsFloat( const unsigned &position ) const;
             
             void gotoFirstParameter();
             const bool gotoNextParameter();
             const int getCurrentPosition() const;
             
             const string getCurrentParameter() const;
+            const int getCurrentParameterAsInteger() const;
+            const double getCurrentParameterAsFloat() const;
             
             const string getFirstParameter() const;
+            const int getFirstParameterAsInteger() const;
+            const double getFirstParameterAsFloat() const;
+            
             const string getLastParameter() const;
+            const int getLastParameterAsInteger() const;
+            const double getLastParameterAsFloat() const;
             
             void setOptionPrefix( const string &optionPrefix );
             void setOptionPostfix( const string &optionPostfix );
@@ -72,6 +81,8 @@ namespace environs {
             const bool hasOption( const string &option ) const;
             
             const string getOptionValue( const string &option ) const;
+            const int getOptionValueAsInteger( const string &option ) const;
+            const double getOptionValueAsFloat( const string &option ) const;
             const string getOptionLongValue( const string &option ) const;
             
             void optionCaseSensitive();
