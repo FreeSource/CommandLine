@@ -27,17 +27,19 @@
 
 CXX = g++
 APPPATH = app
+LIB = build/lib/
 OBJS = build/obj/
 BIN  = build/bin/
 INCLUDES = -Iinclude -Iext/include
-LOCALLIB = ext/lib/
-LIB =
+EXTLIB = ext/lib/
+LIBRARIES =
 
 RES = rc
 OPTFLAGS = -Os
 CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors
 OSTYPE = $(shell gcc -dumpmachine)
 EXEC = myapp.exe
+LIBNAME = environs.a
 
 ifneq (,$(findstring $(firstword $(subst -, ,$(shell gcc -dumpmachine))),mingw32 i686 i586 i386))
     BITS = -m32
@@ -47,7 +49,7 @@ endif
 
 ifneq (,$(findstring mingw,$(OSTYPE)))
     OSTYPE = Windows
-    #LIB := ${LIB}
+    #LIBRARIES := ${LIBRARIES}
 else
     ifneq (,$(findstring linux,$(OSTYPE)))
         OSTYPE = Linux
@@ -75,9 +77,9 @@ define compile
     @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
 endef
 
-all: clean main CommandLine
+all: clean main CommandLine library
 	@echo Linking...
-	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(LOCALLIB)* $(LIB) $(CFLAGS)
+	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(EXTLIB)* $(LIBRARIES) $(CFLAGS)
 	@strip $(BIN)$(EXEC)
 
 main: main.cpp
@@ -87,8 +89,13 @@ main: main.cpp
 CommandLine: CommandLine.cpp
 	$(call compile,$@)
 
-.PHONY: clean
+.PHONY: clean library
+
 clean:
 	@echo Cleaning...
 	@rm -f $(BIN)*.exe
 	@rm -f $(OBJS)*.o
+
+library:
+	@echo Creating library...
+	@ar rs $(LIB)$(LIBNAME) $(OBJS)CommandLine.o $(EXTLIB)*
