@@ -29,7 +29,8 @@
 
 #include <algorithm>
 #include <stdexcept>
-
+#include <stdlib.h>
+    
 #include <charseq.h>
 #include <system.h>
 
