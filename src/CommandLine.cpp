@@ -336,7 +336,8 @@ namespace environs {
                 }
             }
         }
-        return trim( parameters );
+        trim( parameters );
+        return parameters;
     }
     
     void CommandLine::optionCaseSensitive() {

@@ -24,8 +24,8 @@
     along with this program; if not, write to the Free Software Foundation,
     Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --------------------------------------------------------------------------*/
-#ifndef CHARSEQ_H
-#define CHARSEQ_H
+#ifndef UTIL_H
+#define UTIL_H
 
 #include <string>
 #include <vector>
@@ -35,9 +35,10 @@ namespace util {
     using std::string;
     using std::vector;
     
-    const string removeDuplicates( string text, const string &duplicate );
-    const string convertDelimiterToPipe( string text, const string &delimiter );
+    void replaceAll( string &source, const string &find, const string &replace );
     const vector<string> split( string text, const string &delimiter );
-    const string trim( string text );
+    void trim( string &text );
+    const vector<string> wrapText( string text, const size_t &width );
 }
+
 #endif

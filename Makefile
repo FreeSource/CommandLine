@@ -26,20 +26,17 @@
 # --------------------------------------------------------------------------
 
 CXX = g++
-APPPATH = app
-LIB = build/lib/
-OBJS = build/obj/
-BIN  = build/bin/
-INCLUDES = -Iinclude -Iext/include
-EXTLIB = ext/lib/
-LIBRARIES =
-
-RES = rc
-OPTFLAGS = -Os
-CFLAGS = $(INCLUDES) ${OPTFLAGS} -Wall -pedantic-errors
 OSTYPE = $(shell gcc -dumpmachine)
-EXEC = myapp.exe
+APP_DIR = app
+EXTLIBRARY_DIR = ext/sys/${OSTYPE}/lib/
+OBJECT_DIR = build/${OSTYPE}/obj/
+LIBRARY_DIR = build/${OSTYPE}/lib/
+BINARY_DIR  = build/${OSTYPE}/bin/
+INCLUDE_DIR = -Iinclude -Iext/include
+OPTFLAGS = -Os
+CFLAGS = $(INCLUDE_DIR) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
 LIBNAME = environs.a
+EXEC = myapp.exe
 
 ifneq (,$(findstring $(firstword $(subst -, ,$(shell gcc -dumpmachine))),mingw32 i686 i586 i386))
     BITS = -m32
@@ -48,22 +45,26 @@ else
 endif
 
 ifneq (,$(findstring mingw,$(OSTYPE)))
-    OSTYPE = Windows
+    OSTYPE = windows
     #LIBRARIES := ${LIBRARIES}
 else
     ifneq (,$(findstring linux,$(OSTYPE)))
-        OSTYPE = Linux
+        OSTYPE = linux
     else
         ifneq (,$(findstring freebsd,$(OSTYPE)))
-            OSTYPE = FreeBSD
+            OSTYPE = freebsd
         else
-            ifneq (,$(findstring solaris,$(OSTYPE)))
-                OSTYPE = Solaris
+            ifneq (,$(findstring pc-solaris,$(OSTYPE)))
+                OSTYPE = openindiana
             else
-                ifneq (,$(findstring darwin,$(OSTYPE)))
-                    OSTYPE = MacOSX
+                ifneq (,$(findstring solaris,$(OSTYPE)))
+                    OSTYPE = solaris
                 else
-                    $(error Operating System not found)
+                    ifneq (,$(findstring darwin,$(OSTYPE)))
+                        OSTYPE = macos
+                    else
+                        $(error Operating System not found)
+                    endif
                 endif
             endif
         endif
@@ -74,13 +75,15 @@ vpath % app:src
 
 define compile
     @echo $(subst _$(OSTYPE),,$1)
-    @$(CXX) $^ -c -o $(OBJS)$@.o $(CFLAGS)
+    @$(CXX) $^ -c -o $(OBJECT_DIR)$@.o $(CFLAGS)
 endef
 
-all: clean main CommandLine library
+all: clean main CommandLine
 	@echo Linking...
-	@$(CXX) -o $(BIN)$(EXEC) $(OBJS)* $(EXTLIB)* $(LIBRARIES) $(CFLAGS)
-	@strip $(BIN)$(EXEC)
+	@$(CXX) -o $(BINARY_DIR)$(EXEC) $(OBJECT_DIR)* $(EXTLIBRARY_DIR)* $(CFLAGS)
+	@cp $(EXTLIBRARY_DIR)$(LIBNAME) $(LIBRARY_DIR)
+	@ar rs  $(LIBRARY_DIR)$(LIBNAME) $(OBJECT_DIR)CommandLine.o
+	@strip $(BINARY_DIR)$(EXEC)
 
 main: main.cpp
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
@@ -89,13 +92,10 @@ main: main.cpp
 CommandLine: CommandLine.cpp
 	$(call compile,$@)
 
-.PHONY: clean library
+.PHONY: clean
 
 clean:
 	@echo Cleaning...
-	@rm -f $(BIN)*.exe
-	@rm -f $(OBJS)*.o
-
-library:
-	@echo Creating library...
-	@ar rs $(LIB)$(LIBNAME) $(OBJS)CommandLine.o $(EXTLIB)*
+	@rm -f $(BINARY_DIR)*.exe
+	@rm -f $(OBJECT_DIR)*.o
+	@rm -f $(LIBRARY_DIR)*.a
