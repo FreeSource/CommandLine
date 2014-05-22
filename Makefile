@@ -46,7 +46,6 @@ endif
 
 ifneq (,$(findstring mingw,$(OSTYPE)))
     OSTYPE = windows
-    #LIBRARIES := ${LIBRARIES}
 else
     ifneq (,$(findstring linux,$(OSTYPE)))
         OSTYPE = linux
@@ -56,6 +55,7 @@ else
         else
             ifneq (,$(findstring pc-solaris,$(OSTYPE)))
                 OSTYPE = openindiana
+                #LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
             else
                 ifneq (,$(findstring solaris,$(OSTYPE)))
                     OSTYPE = solaris
@@ -71,7 +71,7 @@ else
     endif
 endif
 
-vpath % app:src
+vpath % app:src:src/$(OSTYPE)
 
 define compile
     @echo $(subst _$(OSTYPE),,$1)
