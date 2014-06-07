@@ -26,12 +26,13 @@
 # --------------------------------------------------------------------------
 
 CXX = g++
+SYS = macos windows linux freebsd openindiana solaris
 OSTYPE = $(shell gcc -dumpmachine)
 APP_DIR = app
-EXTLIBRARY_DIR = ext/sys/${OSTYPE}/lib/
-OBJECT_DIR = build/${OSTYPE}/obj/
-LIBRARY_DIR = build/${OSTYPE}/lib/
-BINARY_DIR  = build/${OSTYPE}/bin/
+EXTLIBRARY_DIR = ext/lib/
+OBJECT_DIR = build/sys/${OSTYPE}/obj/
+LIBRARY_DIR = build/lib/
+BINARY_DIR  = build/sys/${OSTYPE}/bin/
 INCLUDE_DIR = -Iinclude -Iext/include
 OPTFLAGS = -Os
 CFLAGS = $(INCLUDE_DIR) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
@@ -82,8 +83,8 @@ all: clean main CommandLine
 	@echo Linking...
 	@$(CXX) -o $(BINARY_DIR)$(EXEC) $(OBJECT_DIR)* $(EXTLIBRARY_DIR)* $(CFLAGS)
 	@cp $(EXTLIBRARY_DIR)$(LIBNAME) $(LIBRARY_DIR)
-	@ar rs  $(LIBRARY_DIR)$(LIBNAME) $(OBJECT_DIR)CommandLine.o
 	@strip $(BINARY_DIR)$(EXEC)
+	@$(foreach SO,$(SYS),ar q $(LIBRARY_DIR)$(LIBNAME) build/sys/$(SO)/obj/CommandLine.o;)
 
 main: main.cpp
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
