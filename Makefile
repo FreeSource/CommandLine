@@ -60,10 +60,15 @@ else
                 ifneq (,$(findstring solaris,$(OSTYPE)))
                     OSTYPE = solaris
                 else
-                    ifneq (,$(findstring darwin,$(OSTYPE)))
-                        OSTYPE = macos
+                    ifneq (,$(findstring haiku,$(OSTYPE)))
+                        OSTYPE = haiku
+                        CFLAGS := ${CFLAGS} -lbe -lbsd
                     else
-                        $(error Operating System not found)
+                        ifneq (,$(findstring darwin,$(OSTYPE)))
+                            OSTYPE = macos
+                        else
+                            $(error Operating System not found)
+                        endif
                     endif
                 endif
             endif
