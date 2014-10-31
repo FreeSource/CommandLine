@@ -55,6 +55,9 @@ namespace {
     const string getAllParameters();
     void convertOptionPostfixToPrefix();
     const int findOptionPosition( string option );
+    void (*convert)( string &text );
+    void tolower( string &text );
+    void noConvert( string &text );
     const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters );
     const vector<string> removeNullElement( vector<string> parameters );
     const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters );
@@ -70,18 +73,13 @@ namespace {
     
     const int findOptionPosition( string option ) {
         if ( !option.empty() ) {
-            if ( !caseSensitiveMode ) {
-                transform( option.begin(), option.end(), option.begin(), ::tolower );
-            }
+            convert( option );
             
             string parameter;
             for ( unsigned position = 0; position < optionParameters.size(); ++position ) {
                 parameter = optionParameters.at( position );
                 
-                if ( !caseSensitiveMode ) {
-                    transform( parameter.begin(), parameter.end(), parameter.begin(), ::tolower );
-                }
-                
+                convert( parameter );
                 if ( optionPrefix + option == parameter ) {
                     return position;
                 }
@@ -89,6 +87,12 @@ namespace {
         }
         return OPTION_NOT_FOUND;
     }
+    
+    void tolower( string &text ) {
+        transform( text.begin(), text.end(), text.begin(), ::tolower );
+    }
+    
+    void noConvert( string &text ) {}
     
     void convertOptionPostfixToPrefix() {
         vector<string> parameters = split( prefixAndPostfixOptionPostfixWithWhitespace( getAllParameters() ), " " );
@@ -145,6 +149,7 @@ namespace environs {
         try {
             currentPosition = 0;
             caseSensitiveMode = true;
+            convert = &noConvert;
             
             applicationFullPath = getExecutablePath();
             parameters = getArguments();
@@ -342,10 +347,12 @@ namespace environs {
     
     void CommandLine::optionCaseSensitive() {
         caseSensitiveMode = true;
+        convert = &noConvert;
     }
     
     void CommandLine::optionCaseInsensitive() {
         caseSensitiveMode = false;
+        convert = &tolower;
     }
     
     const bool CommandLine::isOptionCaseSensitive() const {
