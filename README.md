@@ -16,13 +16,23 @@ Directory structure
 
 - __build:__ *directory used to hold the built files.*
 
-- __build/bin:__ *directory used to hold the executable binary files.*
+- __build/system:__ *compilation results for each operational system.*
 
-- __build/obj:__ *directory used to hold the built object files.*
+- __build/system/bin:__ *directory used to hold the executable binary files.*
+
+- __build/system/obj:__ *directory used to hold the built object files.*
+
+- __build/system/lib:__ *directory used to hold the built library files.*
 
 - __doc:__ *this directory holds all the project documentation.*
 
 - __ext:__ *libraries provided by third-party go here.*
+
+- __ext/include:__ *this directory holds all header files declarations for libraries provided by third-party.*
+
+- __ext/lib:__ *this directory holds all libraries provided by third-party.*
+
+- __ext/lib/system:__ *this directory holds all libraries provided by third-party for each operational system.*
 
 - __include:__ *this directory holds all header files declarations for the src directory.*
 
