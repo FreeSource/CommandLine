@@ -27,12 +27,11 @@
 
 CXX = g++
 OSTYPE = $(shell gcc -dumpmachine)
-APP_DIR = app
-EXTLIBRARY_DIR = ext/lib/${OSTYPE}/
-OBJECT_DIR = build/${OSTYPE}/obj/
-LIBRARY_DIR = build/${OSTYPE}/lib/
-BINARY_DIR  = build/${OSTYPE}/bin/
-INCLUDE_DIR = -Iinclude -Iext/include
+EXTLIBRARY_DIR = os/${OSTYPE}/extlib/
+OBJECT_DIR = os/${OSTYPE}/build/obj/
+LIBRARY_DIR = os/${OSTYPE}/build/lib/
+BINARY_DIR  = os/${OSTYPE}/build/bin/
+INCLUDE_DIR = -Iinclude/local -Iinclude/ext
 OPTFLAGS = -Os
 CFLAGS = $(INCLUDE_DIR) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
 LIBNAME = environs.a
@@ -46,6 +45,7 @@ endif
 
 ifneq (,$(findstring mingw,$(OSTYPE)))
     OSTYPE = windows
+    CFLAGS := ${CFLAGS} -static
 else
     ifneq (,$(findstring linux,$(OSTYPE)))
         OSTYPE = linux

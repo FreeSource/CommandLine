@@ -25,7 +25,7 @@
 #    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # --------------------------------------------------------------------------
 
-EXEC   = ../build/bin/myapp.exe
+EXEC = ../os/${OSTYPE}/build/bin/myapp.exe
 OUTPUT = result.txt
 
 all :
