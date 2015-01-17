@@ -12,9 +12,22 @@ To test the project type __gmake__ or __make__ from the test project directory.
 Directory structure
 -------------------
 
-- __/project:__ *this organizes your project components.*
+- __/project:__ *project home directory to organize all project components.*
+
+- __/doc:__ *this directory holds all the project documentation.*
+
+- __/include:__ *this directory contains declarations and definitions to be shared between several source files.*
+
+- __/ext:__ *this directory holds all external declarations for libraries provided by third-party.*
+
+- __/local:__ *this directory contains all project declarations.*
+
+- __/os:__ *directory used to hold particular operational system components like executables and libraries.*
+
+- __/osname:__ *operational system directory.*
 
 - __build:__ *directory used to hold the built files.*
+
 
 - __build/system:__ *compilation results for each operational system.*
 
@@ -23,8 +36,6 @@ Directory structure
 - __build/system/obj:__ *directory used to hold the built object files.*
 
 - __build/system/lib:__ *directory used to hold the built library files.*
-
-- __doc:__ *this directory holds all the project documentation.*
 
 - __ext:__ *libraries provided by third-party go here.*
 
