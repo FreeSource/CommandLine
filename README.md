@@ -6,7 +6,7 @@ Building the Project
 --------------------
 
 To build the project type __gmake__ or __make__ from the home project directory.  
-To cleaning up old files type __gmake clean__ or __make clean__ from the root project directory.  
+To cleaning up old files type __gmake clean__ or __make clean__ from the home project directory.  
 To test the project type __gmake__ or __make__ from the test project directory.
 
 Directory structure
