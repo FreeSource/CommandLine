@@ -22,31 +22,20 @@ Directory structure
 
 - __/local:__ *this directory contains all project declarations.*
 
-- __/os:__ *directory used to hold particular operational system components like executables and libraries.*
+- __/os:__ *directory used to hold different operating system components like executables and libraries.*
 
-- __/osname:__ *operational system directory.*
+- __/osname:__ *operating system directory.*
 
-- __build:__ *directory used to hold the built files.*
+- __/build:__ *directory used to hold the built files.*
 
+- __/bin:__ *directory used to hold the executable binary files.*
 
-- __build/system:__ *compilation results for each operational system.*
+- __/lib:__ *directory used to hold the built library files.*
 
-- __build/system/bin:__ *directory used to hold the executable binary files.*
+- __/obj:__ *directory used to hold the built object files.*
 
-- __build/system/obj:__ *directory used to hold the built object files.*
+- __/extlib:__ *this directory holds all libraries provided by third-party.*
 
-- __build/system/lib:__ *directory used to hold the built library files.*
+- __/rc:__ *this directory holds all resources which could consist of images, string tables, version info resources, etc.*
 
-- __ext:__ *libraries provided by third-party go here.*
-
-- __ext/include:__ *this directory holds all header files declarations for libraries provided by third-party.*
-
-- __ext/lib:__ *this directory holds all libraries provided by third-party.*
-
-- __ext/lib/system:__ *this directory holds all libraries provided by third-party for each operational system.*
-
-- __include:__ *this directory holds all header files declarations for the src directory.*
-
-- __src:__ *this directory contains the implementation source files for the project.*
-
-- __test:__ *the tests you write (unit tests, fixtures, and functional tests) all go here.*
+- __/test:__ *the tests you write (unit tests, fixtures, and functional tests) all go here.*
