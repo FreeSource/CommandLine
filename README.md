@@ -12,4 +12,4 @@ To test the project type __gmake__ or __make__ from the test project directory.
 Directory structure
 -------------------
 
-![BelloSGML](https://cdn.rawgit.com/FreeSource/BelloSGML/master/rc/bellosgml2.jpg)
+![DirectoryStructure](https://cdn.rawgit.com/FreeSource/CommandLine/master/doc/directyoryStructure.jpg)
