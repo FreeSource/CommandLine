@@ -27,13 +27,13 @@
 
 CXX = g++
 OSTYPE = $(shell gcc -dumpmachine)
-EXTLIBRARY_DIR = os/${OSTYPE}/extlib/
-OBJECT_DIR = os/${OSTYPE}/build/obj/
-LIBRARY_DIR = os/${OSTYPE}/build/lib/
-BINARY_DIR  = os/${OSTYPE}/build/bin/
-INCLUDE_DIR = -Iinclude/local -Iinclude/ext
+EXTLIB = os/${OSTYPE}/lib/
+OBJ = os/${OSTYPE}/build/obj/
+LIB = os/${OSTYPE}/build/lib/
+BIN  = os/${OSTYPE}/build/bin/
+INCLUDE = -Iinclude -Ios/include
 OPTFLAGS = -Os
-CFLAGS = $(INCLUDE_DIR) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
+CFLAGS = $(INCLUDE) ${OPTFLAGS} -Wall -pedantic-errors -std=c++98 $(BITS)
 LIBNAME = environs.a
 EXEC = myapp.exe
 
@@ -80,15 +80,15 @@ vpath % app:src:src/$(OSTYPE)
 
 define compile
     @echo $(subst _$(OSTYPE),,$1)
-    @$(CXX) $^ -c -o $(OBJECT_DIR)$@.o $(CFLAGS)
+    @$(CXX) $^ -c -o $(OBJ)$@.o $(CFLAGS)
 endef
 
 all: clean main CommandLine
 	@echo Linking...
-	@$(CXX) -o $(BINARY_DIR)$(EXEC) $(OBJECT_DIR)* $(EXTLIBRARY_DIR)* $(CFLAGS)
-	@strip $(BINARY_DIR)$(EXEC)
-	@cp $(EXTLIBRARY_DIR)$(LIBNAME) $(LIBRARY_DIR)
-	@ar -qc $(LIBRARY_DIR)$(LIBNAME) $(OBJECT_DIR)/CommandLine.o
+	@$(CXX) -o $(BIN)$(EXEC) $(OBJ)* $(EXTLIB)* $(CFLAGS)
+	@strip $(BIN)$(EXEC)
+	@cp $(EXTLIB)$(LIBNAME) $(LIB)
+	@ar -qc $(LIB)$(LIBNAME) $(OBJ)/CommandLine.o
 
 main: main.cpp
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
@@ -101,6 +101,6 @@ CommandLine: CommandLine.cpp
 
 clean:
 	@echo Cleaning...
-	@rm -f $(BINARY_DIR)*.exe
-	@rm -f $(OBJECT_DIR)*.o
-	@rm -f $(LIBRARY_DIR)*.a
+	@rm -f $(BIN)*.exe
+	@rm -f $(OBJ)*.o
+	@rm -f $(LIB)*.a

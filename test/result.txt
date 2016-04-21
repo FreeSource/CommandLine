@@ -2,11 +2,11 @@
 1
 7
 9
-c:\Users\xxx\Documents\GitHub\CommandLine\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
+c:\Users\everlato\Downloads\CommandLine-master\os\windows\build\bin\myapp.exe Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune getCommandLine
 myapp.exe
-c:\Users\xxx\Documents\GitHub\CommandLine\build\bin
-c:\Users\xxx\Documents\GitHub\CommandLine\build\bin\myapp.exe
-c:\Users\xxx\Documents\GitHub\CommandLine\test
+c:\Users\everlato\Downloads\CommandLine-master\os\windows\build\bin
+c:\Users\everlato\Downloads\CommandLine-master\os\windows\build\bin\myapp.exe
+c:\Users\everlato\Downloads\CommandLine-master\test
 yes
 yes
 Mars

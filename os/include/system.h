@@ -38,5 +38,7 @@ namespace crosslib {
     const string getExecutablePath();
     const vector<string> getArguments();
     const string getCurrentDirectory();
+    const bool fileExists( const string &filename );
 }
+
 #endif

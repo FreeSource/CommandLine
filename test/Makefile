@@ -25,6 +25,41 @@
 #    Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # --------------------------------------------------------------------------
 
+OSTYPE = $(shell gcc -dumpmachine)
+
+ifneq (,$(findstring mingw,$(OSTYPE)))
+    OSTYPE = windows
+    CFLAGS := ${CFLAGS} -static
+else
+    ifneq (,$(findstring linux,$(OSTYPE)))
+        OSTYPE = linux
+    else
+        ifneq (,$(findstring freebsd,$(OSTYPE)))
+            OSTYPE = freebsd
+        else
+            ifneq (,$(findstring pc-solaris,$(OSTYPE)))
+                OSTYPE = openindiana
+                #LIB = -R/usr/local/lib:/usr/lib/64:/usr/local/lib/sparcv9
+            else
+                ifneq (,$(findstring solaris,$(OSTYPE)))
+                    OSTYPE = solaris
+                else
+                    ifneq (,$(findstring haiku,$(OSTYPE)))
+                        OSTYPE = haiku
+                        CFLAGS := ${CFLAGS} -lbe -lbsd
+                    else
+                        ifneq (,$(findstring darwin,$(OSTYPE)))
+                            OSTYPE = macos
+                        else
+                            $(error Operating System not found)
+                        endif
+                    endif
+                endif
+            endif
+        endif
+    endif
+endif
+
 EXEC = ../os/${OSTYPE}/build/bin/myapp.exe
 OUTPUT = result.txt
 
