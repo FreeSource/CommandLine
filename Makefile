@@ -88,7 +88,7 @@ all: clean main CommandLine
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJ)* $(EXTLIB)* $(CFLAGS)
 	@strip $(BIN)$(EXEC)
 	@cp $(EXTLIB)$(LIBNAME) $(LIB)
-	@ar -qc $(LIB)$(LIBNAME) $(OBJ)/CommandLine.o
+	@ar -qc $(LIB)$(LIBNAME) $(OBJ)*
 
 main: main.cpp
 	@echo Compiling on $(OSTYPE) $(subst -m,,$(BITS))BIT...
