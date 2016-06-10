@@ -83,7 +83,7 @@ define compile
     @$(CXX) $^ -c -o $(OBJ)$@.o $(CFLAGS)
 endef
 
-all: clean main CommandLine
+all: clean main CommandLine CommandLineImpl
 	@echo Linking...
 	@$(CXX) -o $(BIN)$(EXEC) $(OBJ)* $(EXTLIB)* $(CFLAGS)
 	@strip $(BIN)$(EXEC)
@@ -95,6 +95,9 @@ main: main.cpp
 	$(call compile,$@)
 
 CommandLine: CommandLine.cpp
+	$(call compile,$@)
+
+CommandLineImpl: CommandLineImpl.cpp
 	$(call compile,$@)
 
 .PHONY: clean

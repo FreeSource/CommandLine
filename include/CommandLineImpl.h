@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------------------
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
      
-    File: CommandLine.h
+    File: CommandLineImpl.h
     Version: 2.0.0
     Copyright: (C) 2012 by Enzo Roberto Verlato
     Contact: enzover@ig.com.br
@@ -25,18 +25,23 @@
     Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --------------------------------------------------------------------------*/
 
-#ifndef COMMANDLINE_H
-#define COMMANDLINE_H
+#ifndef COMMANDLINEIMPL_H
+#define COMMANDLINEIMPL_H
+
+#include <CommandLine.h>
 
 #include <string>
+#include <vector>
 
 namespace environs {
-    using std::string;
     
-    class CommandLine {
+    using std::string;
+    using std::vector;
+    
+    class CommandLineImpl {
+        
         public:
-            CommandLine();
-            ~CommandLine();
+            CommandLineImpl();
             
             const string getCommandLine() const;
             
@@ -55,8 +60,8 @@ namespace environs {
             const int getParameterAsInteger( const unsigned &position ) const;
             const double getParameterAsFloat( const unsigned &position ) const;
             
-            void gotoFirstParameter() const;
-            const bool gotoNextParameter() const;
+            void gotoFirstParameter();
+            const bool gotoNextParameter();
             const int getCurrentPosition() const;
             
             const string getCurrentParameter() const;
@@ -71,22 +76,43 @@ namespace environs {
             const int getLastParameterAsInteger() const;
             const double getLastParameterAsFloat() const;
             
-            void setOptionPrefix( const string &optionPrefix ) const;
-            void setOptionPostfix( const string &optionPostfix ) const;
+            void setOptionPrefix( const string &optionPrefix );
+            void setOptionPostfix( const string &optionPostfix );
             
             const string getOptionPrefix() const;
             const string getOptionPostfix() const;
             
-            const bool hasOption( const string &option ) const;
+            const bool hasOption( const string &option );
             
-            const string getOptionValue( const string &option ) const;
-            const int getOptionValueAsInteger( const string &option ) const;
-            const double getOptionValueAsFloat( const string &option ) const;
-            const string getOptionLongValue( const string &option ) const;
+            const string getOptionValue( const string &option );
+            const int getOptionValueAsInteger( const string &option );
+            const double getOptionValueAsFloat( const string &option );
+            const string getOptionLongValue( const string &option );
             
-            void optionCaseSensitive() const;
-            void optionCaseInsensitive() const;
+            void optionCaseSensitive();
+            void optionCaseInsensitive();
             const bool isOptionCaseSensitive() const;
+            
+        private:
+            string applicationFullPath;
+            vector<string> parameters;
+            vector<string> optionParameters;
+            
+            unsigned currentPosition;
+            bool caseSensitiveMode;
+            string optionPrefix;
+            bool postfixed;
+            
+            void convertOptionPostfixToPrefix();
+            const int findOptionPosition( string option );
+            
+            void (CommandLineImpl::*convert)( string &text );
+            void noConvert( string &text );
+            void tolower( string &text );
+            
+            const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters ) const;
+            const vector<string> removeNullElement( vector<string> parameters ) const;
+            const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters ) const;
     };
 }
 

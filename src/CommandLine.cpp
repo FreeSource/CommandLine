@@ -25,337 +25,155 @@
     Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --------------------------------------------------------------------------*/
 
-#include <CommandLine.h>
-
-#include <algorithm>
-#include <stdexcept>
-#include <stdlib.h>
-    
-#include <charseq.h>
-#include <system.h>
+#include <CommandLineImpl.h>
 
 namespace {
-    
-    using namespace util;
-    using namespace crosslib;
-    using std::runtime_error;
-    
-    const int OPTION_NOT_FOUND = -1;
-    
-    // PRIVATE:
-    string applicationFullPath;
-    vector<string> parameters;
-    vector<string> optionParameters;
-    
-    unsigned currentPosition;
-    bool caseSensitiveMode;
-    string optionPrefix;
-    bool postfixed;
-    
-    const string getAllParameters();
-    void convertOptionPostfixToPrefix();
-    const int findOptionPosition( string option );
-    void (*convert)( string &text );
-    void tolower( string &text );
-    void noConvert( string &text );
-    const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters );
-    const vector<string> removeNullElement( vector<string> parameters );
-    const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters );
-    
-    const string getAllParameters() {
-        string parameters;
-        for ( unsigned position = 0; position < ::parameters.size(); ++position ) {
-            parameters.append( ::parameters.at( position ) );
-            parameters.append( position + 1 == ::parameters.size() ? "" : " " );
-        }
-        return parameters;
-    }
-    
-    const int findOptionPosition( string option ) {
-        if ( !option.empty() ) {
-            convert( option );
-            
-            string parameter;
-            for ( unsigned position = 0; position < optionParameters.size(); ++position ) {
-                parameter = optionParameters.at( position );
-                
-                convert( parameter );
-                if ( optionPrefix + option == parameter ) {
-                    return position;
-                }
-            }
-        }
-        return OPTION_NOT_FOUND;
-    }
-    
-    void tolower( string &text ) {
-        transform( text.begin(), text.end(), text.begin(), ::tolower );
-    }
-    
-    void noConvert( string &text ) {}
-    
-    void convertOptionPostfixToPrefix() {
-        vector<string> parameters = split( prefixAndPostfixOptionPostfixWithWhitespace( getAllParameters() ), " " );
-        parameters = removeNullElement( parameters );
-        parameters = removeOptionPostfixDuplicityBetweenOptionAndValue( parameters );
-        
-        for ( unsigned position = 0; position < parameters.size(); ++position ) {
-            if ( position > 0 && parameters.at( position ) == optionPrefix ) {
-                if ( parameters.at( position - 1 ).find( optionPrefix ) == string::npos ) {
-                    parameters.at( position - 1 ) = optionPrefix + parameters.at( position - 1 );
-                }
-                
-                parameters.erase( parameters.begin() + position );
-                --position;
-            }
-        }
-        optionParameters = parameters;
-    }
-    
-    const vector<string> removeOptionPostfixDuplicityBetweenOptionAndValue( vector<string> parameters ) {
-        for ( unsigned position = 0; position < parameters.size(); ++position ) {
-            if ( position + 1 < parameters.size() && parameters.at( position ) == optionPrefix && parameters.at( position + 1 ) == optionPrefix ) {
-                parameters.erase( parameters.begin() + position );
-                --position;
-            }
-        }
-        return parameters;
-    }
-    
-    const string prefixAndPostfixOptionPostfixWithWhitespace( string parameters ) {
-        size_t found = parameters.find( optionPrefix, 0 );
-        while ( found != string::npos ) {
-            parameters.replace( parameters.find( optionPrefix, found ), optionPrefix.size(), " " + optionPrefix + " " );
-            found += 2 + optionPrefix.size();
-            found = parameters.find( optionPrefix, found );
-        }
-        return parameters;
-    }
-    
-    const vector<string> removeNullElement( vector<string> parameters ) {
-        for ( unsigned position = 0; position < parameters.size(); ++position ) {
-            if ( parameters.at( position ).empty() ) {
-                parameters.erase( parameters.begin() + position );
-                --position;
-            }
-        }
-        return parameters;
-    }
+    environs::CommandLineImpl* commandLine;
 }
 
 namespace environs {
     
     CommandLine::CommandLine() {
-        try {
-            currentPosition = 0;
-            caseSensitiveMode = true;
-            convert = &noConvert;
-            
-            applicationFullPath = getExecutablePath();
-            parameters = getArguments();
-            optionParameters = parameters;
-            
-        } catch ( runtime_error &error ) {
-            
-            // Clean up all previous efforts...
-            applicationFullPath.clear();
-            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
-        }
+        commandLine = new CommandLineImpl();
+    }
+    
+    CommandLine::~CommandLine() {
+        delete commandLine;
     }
     
     const string CommandLine::getCommandLine() const {
-        return applicationFullPath + " " + getAllParameters();
+        return commandLine->getCommandLine();
     }
     
     const string CommandLine::getAllParameters() const {
-        string parameters;
-        for ( unsigned index = 0; index < ::parameters.size(); ++index ) {
-            parameters.append( ::parameters.at( index ) );
-            parameters.append( index + 1 == ::parameters.size() ? "" : " " );
-        }
-        return parameters;
+        return commandLine->getAllParameters();
     }
     
     const string CommandLine::getApplicationName() const {
-        return applicationFullPath.substr( applicationFullPath.find_last_of( "/\\" ) + 1U );
+        return commandLine->getApplicationName();
     }
     
     const string CommandLine::getApplicationPath() const {
-        return applicationFullPath.substr( 0, applicationFullPath.find_last_of( "/\\" ) );
+        return commandLine->getApplicationPath();
     }
     
     const string CommandLine::getApplicationFullPath() const {
-        return applicationFullPath;
+        return commandLine->getApplicationFullPath();
     }
     
     const string CommandLine::getCurrentWorkingDirectory() const {
-        try {
-            return getCurrentDirectory();
-        } catch ( runtime_error &error ) {
-            throw runtime_error( "FILE: " + string( __FILE__ ) + " FUNCTION: " + string( __PRETTY_FUNCTION__ ) + " -> " + error.what() );
-        }
+        return commandLine->getCurrentWorkingDirectory();
     }
     
     const bool CommandLine::hasParameters() const {
-        return parameters.empty() ? false : true;
+        return commandLine->hasParameters();
     }
     
     const bool CommandLine::hasParameter( const unsigned &position ) const {
-        return position <= parameters.size() && position > 0 ? true : false;
+        return commandLine->hasParameter( position );
     }
     
     const int CommandLine::getParametersNumber() const {
-        return parameters.size();
+        return commandLine->getParametersNumber();
     }
     
     const string CommandLine::getParameter( const unsigned &position ) const {
-        return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
+        return commandLine->getParameter( position );
     }
     
     const int CommandLine::getParameterAsInteger( const unsigned &position ) const {
-        return atoi( getParameter( position ).c_str() );
+        return commandLine->getParameterAsInteger( position );
     }
     
     const double CommandLine::getParameterAsFloat( const unsigned &position ) const {
-        return atof( getParameter( position ).c_str() );
+        return commandLine->getParameterAsFloat( position );
     }
     
-    void CommandLine::gotoFirstParameter() {
-        currentPosition = 0;
+    void CommandLine::gotoFirstParameter() const {
+        return commandLine->gotoFirstParameter();
     }
     
-    const bool CommandLine::gotoNextParameter() {
-        if ( currentPosition + 1 < parameters.size() ) {
-            ++currentPosition;
-            return true;
-        }
-        return false;
+    const bool CommandLine::gotoNextParameter() const {
+        return commandLine->gotoNextParameter();
     }
     
     const int CommandLine::getCurrentPosition() const {
-        return parameters.size() ? currentPosition + 1 : 0;
+        return commandLine->getCurrentPosition();
     }
     
     const string CommandLine::getCurrentParameter() const {
-        return getParameter( currentPosition + 1 );
+        return commandLine->getCurrentParameter();
     }
     
     const int CommandLine::getCurrentParameterAsInteger() const {
-        return getParameterAsInteger( currentPosition + 1 );
+        return commandLine->getCurrentParameterAsInteger();
     }
     
     const double CommandLine::getCurrentParameterAsFloat() const {
-        return getParameterAsFloat( currentPosition + 1 );
+        return commandLine->getCurrentParameterAsFloat();
     }
     
     const string CommandLine::getFirstParameter() const {
-        return getParameter( 1 );
+        return commandLine->getFirstParameter();
     }
     
     const int CommandLine::getFirstParameterAsInteger() const {
-        return getParameterAsInteger( 1 );
+        return commandLine->getFirstParameterAsInteger();
     }
     
     const double CommandLine::getFirstParameterAsFloat() const {
-        return getParameterAsFloat( 1 );
+        return commandLine->getFirstParameterAsFloat();
     }
     
     const string CommandLine::getLastParameter() const {
-        return getParameter( parameters.size() );
+        return commandLine->getLastParameter();
     }
     
     const int CommandLine::getLastParameterAsInteger() const {
-        return getParameterAsInteger( parameters.size() );
+        return commandLine->getLastParameterAsInteger();
     }
     
     const double CommandLine::getLastParameterAsFloat() const {
-        return getParameterAsFloat( parameters.size() );
+        return commandLine->getLastParameterAsFloat();
     }
     
-    void CommandLine::setOptionPrefix( const string &optionPrefix ) {
-        postfixed = false;
-        ::optionPrefix = optionPrefix;
-        optionParameters = parameters;
+    void CommandLine::setOptionPrefix( const string &optionPrefix ) const {
+        commandLine->setOptionPrefix( optionPrefix );
     }
     
-    void CommandLine::setOptionPostfix( const string &optionPostfix ) {
-        if ( !optionPostfix.empty() ) {
-            postfixed = true;
-            optionPrefix = optionPostfix;
-            convertOptionPostfixToPrefix();
-        }
+    void CommandLine::setOptionPostfix( const string &optionPostfix ) const {
+        commandLine->setOptionPostfix( optionPostfix );
     }
     
     const string CommandLine::getOptionPrefix() const {
-        return postfixed ? "" : optionPrefix;
+        return commandLine->getOptionPrefix();
     }
     
     const string CommandLine::getOptionPostfix() const {
-        return postfixed ? optionPrefix : "";
+        return commandLine->getOptionPostfix();
     }
     
     const bool CommandLine::hasOption( const string &option ) const {
-        return findOptionPosition( option ) != OPTION_NOT_FOUND ? true : false;
-    }
-    
-    const int CommandLine::getOptionValueAsInteger( const string &option ) const {
-        return atoi( getOptionValue( option ).c_str() );
-    }
-    
-    const double CommandLine::getOptionValueAsFloat( const string &option ) const {
-        return atof( getOptionValue( option ).c_str() );
+        return commandLine->hasOption( option );
     }
     
     const string CommandLine::getOptionValue( const string &option ) const {
-        int position = findOptionPosition( option );
-        if ( position != OPTION_NOT_FOUND && unsigned( ++position ) < optionParameters.size() ) {
-            if ( optionPrefix.empty() ) {
-                return optionParameters.at( position );
-            }
-            
-            size_t found = optionParameters.at( position ).find( optionPrefix );
-            
-            if ( found == string::npos || found > 0 ) {
-                return optionParameters.at( position );
-            }
-        }
-        return "";
+        return commandLine->getOptionValue( option );
     }
     
     const string CommandLine::getOptionLongValue( const string &option ) const {
-        int position = findOptionPosition( option );
-        string parameters;
-        if ( position != OPTION_NOT_FOUND ) {
-            size_t found;
-            for ( ++position; unsigned( position ) < optionParameters.size(); ++position ) {
-                found = optionPrefix.empty() || optionParameters.at( position ) == optionPrefix ? string::npos : optionParameters.at( position ).find( optionPrefix );
-                
-                if ( found == string::npos || found > 0 ) {
-                    parameters += optionParameters.at( position );
-                } else {
-                    break;
-                }
-                
-                if ( unsigned( position + 1 ) < optionParameters.size() ) {
-                    parameters += " ";
-                }
-            }
-        }
-        trim( parameters );
-        return parameters;
+        return commandLine->getOptionLongValue( option );
     }
     
-    void CommandLine::optionCaseSensitive() {
-        caseSensitiveMode = true;
-        convert = &noConvert;
+    void CommandLine::optionCaseSensitive() const {
+        commandLine->optionCaseSensitive();
     }
     
-    void CommandLine::optionCaseInsensitive() {
-        caseSensitiveMode = false;
-        convert = &tolower;
+    void CommandLine::optionCaseInsensitive() const {
+        commandLine->optionCaseInsensitive();
     }
     
     const bool CommandLine::isOptionCaseSensitive() const {
-        return caseSensitiveMode;
+        return commandLine->isOptionCaseSensitive();
     }
 }
