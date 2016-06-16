@@ -25,6 +25,7 @@
     Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --------------------------------------------------------------------------*/
 
+#include <CommandLine.h>
 #include <CommandLineImpl.h>
 
 namespace {
@@ -77,16 +78,16 @@ namespace environs {
         return commandLine->getParametersNumber();
     }
     
-    const string CommandLine::getParameter( const unsigned &position ) const {
-        return commandLine->getParameter( position );
+    const string CommandLine::getParameterByPosition( const unsigned &position ) const {
+        return commandLine->getParameterByPosition( position );
     }
     
-    const int CommandLine::getParameterAsInteger( const unsigned &position ) const {
-        return commandLine->getParameterAsInteger( position );
+    const int CommandLine::getParameterByPositionAsInteger( const unsigned &position ) const {
+        return commandLine->getParameterByPositionAsInteger( position );
     }
     
-    const double CommandLine::getParameterAsFloat( const unsigned &position ) const {
-        return commandLine->getParameterAsFloat( position );
+    const double CommandLine::getParameterByPositionAsFloat( const unsigned &position ) const {
+        return commandLine->getParameterByPositionAsFloat( position );
     }
     
     void CommandLine::gotoFirstParameter() const {
@@ -165,12 +166,12 @@ namespace environs {
         return commandLine->getOptionLongValue( option );
     }
     
-    void CommandLine::optionCaseSensitive() const {
-        commandLine->optionCaseSensitive();
+    void CommandLine::setOptionCaseSensitive() const {
+        commandLine->setOptionCaseSensitive();
     }
     
-    void CommandLine::optionCaseInsensitive() const {
-        commandLine->optionCaseInsensitive();
+    void CommandLine::setOptionCaseInsensitive() const {
+        commandLine->setOptionCaseInsensitive();
     }
     
     const bool CommandLine::isOptionCaseSensitive() const {

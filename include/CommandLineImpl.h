@@ -28,8 +28,6 @@
 #ifndef COMMANDLINEIMPL_H
 #define COMMANDLINEIMPL_H
 
-#include <CommandLine.h>
-
 #include <string>
 #include <vector>
 
@@ -56,9 +54,9 @@ namespace environs {
             
             const int getParametersNumber() const;
             const string getAllParameters() const;
-            const string getParameter( const unsigned &position ) const;
-            const int getParameterAsInteger( const unsigned &position ) const;
-            const double getParameterAsFloat( const unsigned &position ) const;
+            const string getParameterByPosition( const unsigned &position ) const;
+            const int getParameterByPositionAsInteger( const unsigned &position ) const;
+            const double getParameterByPositionAsFloat( const unsigned &position ) const;
             
             void gotoFirstParameter();
             const bool gotoNextParameter();
@@ -89,8 +87,8 @@ namespace environs {
             const double getOptionValueAsFloat( const string &option );
             const string getOptionLongValue( const string &option );
             
-            void optionCaseSensitive();
-            void optionCaseInsensitive();
+            void setOptionCaseSensitive();
+            void setOptionCaseInsensitive();
             const bool isOptionCaseSensitive() const;
             
         private:

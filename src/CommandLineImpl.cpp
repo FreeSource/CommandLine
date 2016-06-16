@@ -107,16 +107,16 @@ namespace environs {
         return parameters.size();
     }
     
-    const string CommandLineImpl::getParameter( const unsigned &position ) const {
+    const string CommandLineImpl::getParameterByPosition( const unsigned &position ) const {
         return position <= parameters.size() && position > 0 ? parameters.at( position - 1 ) : "";
     }
     
-    const int CommandLineImpl::getParameterAsInteger( const unsigned &position ) const {
-        return atoi( getParameter( position ).c_str() );
+    const int CommandLineImpl::getParameterByPositionAsInteger( const unsigned &position ) const {
+        return atoi( getParameterByPosition( position ).c_str() );
     }
     
-    const double CommandLineImpl::getParameterAsFloat( const unsigned &position ) const {
-        return atof( getParameter( position ).c_str() );
+    const double CommandLineImpl::getParameterByPositionAsFloat( const unsigned &position ) const {
+        return atof( getParameterByPosition( position ).c_str() );
     }
     
     void CommandLineImpl::gotoFirstParameter() {
@@ -136,39 +136,39 @@ namespace environs {
     }
     
     const string CommandLineImpl::getCurrentParameter() const {
-        return getParameter( currentPosition + 1 );
+        return getParameterByPosition( currentPosition + 1 );
     }
     
     const int CommandLineImpl::getCurrentParameterAsInteger() const {
-        return getParameterAsInteger( currentPosition + 1 );
+        return getParameterByPositionAsInteger( currentPosition + 1 );
     }
     
     const double CommandLineImpl::getCurrentParameterAsFloat() const {
-        return getParameterAsFloat( currentPosition + 1 );
+        return getParameterByPositionAsFloat( currentPosition + 1 );
     }
     
     const string CommandLineImpl::getFirstParameter() const {
-        return getParameter( 1 );
+        return getParameterByPosition( 1 );
     }
     
     const int CommandLineImpl::getFirstParameterAsInteger() const {
-        return getParameterAsInteger( 1 );
+        return getParameterByPositionAsInteger( 1 );
     }
     
     const double CommandLineImpl::getFirstParameterAsFloat() const {
-        return getParameterAsFloat( 1 );
+        return getParameterByPositionAsFloat( 1 );
     }
     
     const string CommandLineImpl::getLastParameter() const {
-        return getParameter( parameters.size() );
+        return getParameterByPosition( parameters.size() );
     }
     
     const int CommandLineImpl::getLastParameterAsInteger() const {
-        return getParameterAsInteger( parameters.size() );
+        return getParameterByPositionAsInteger( parameters.size() );
     }
     
     const double CommandLineImpl::getLastParameterAsFloat() const {
-        return getParameterAsFloat( parameters.size() );
+        return getParameterByPositionAsFloat( parameters.size() );
     }
     
     void CommandLineImpl::setOptionPrefix( const string &optionPrefix ) {
@@ -309,14 +309,14 @@ namespace environs {
         return OPTION_NOT_FOUND;
     }
     
-    void CommandLineImpl::optionCaseSensitive() {
+    void CommandLineImpl::setOptionCaseSensitive() {
         caseSensitiveMode = true;
         convert = &CommandLineImpl::noConvert;
     }
     
     void CommandLineImpl::noConvert( string &text ) {}
     
-    void CommandLineImpl::optionCaseInsensitive() {
+    void CommandLineImpl::setOptionCaseInsensitive() {
         caseSensitiveMode = false;
         convert = &CommandLineImpl::tolower;
     }

@@ -42,7 +42,7 @@ int main() {
         cout.precision( 9 );
         
         do {
-            option = commandLine.getParameter( commandLine.getCurrentPosition() + 1 );
+            option = commandLine.getParameterByPosition( commandLine.getCurrentPosition() + 1 );
             
             if ( commandLine.getCurrentParameter() == "getParametersNumber" ) {
                 cout << commandLine.getParametersNumber() << endl;
@@ -69,10 +69,10 @@ int main() {
                 commandLine.hasParameters() ? cout << "yes" << endl : cout << "no" << endl;
                 
             } else if ( commandLine.getCurrentParameter() == "hasParameter" ) {
-                commandLine.hasParameter( atoi( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ).c_str() ) ) ? cout << "yes" << endl : cout << "no" << endl;
+                commandLine.hasParameter( atoi( commandLine.getParameterByPosition( commandLine.getCurrentPosition() + 1 ).c_str() ) ) ? cout << "yes" << endl : cout << "no" << endl;
                 
             } else if ( commandLine.getCurrentParameter() == "getParameter" ) {
-                cout << commandLine.getParameter( atoi( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ).c_str() ) ) << endl;
+                cout << commandLine.getParameterByPosition( atoi( commandLine.getParameterByPosition( commandLine.getCurrentPosition() + 1 ).c_str() ) ) << endl;
                 
             } else if ( commandLine.getCurrentParameter() == "gotoFirstParameter" ) {
                 cout << "Tested Yet..." << endl;
@@ -93,10 +93,10 @@ int main() {
                 cout << commandLine.getLastParameter() << endl;
                 
             } else if ( commandLine.getCurrentParameter() == "setOptionPrefix" ) {
-                commandLine.setOptionPrefix( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ) );
+                commandLine.setOptionPrefix( commandLine.getParameterByPosition( commandLine.getCurrentPosition() + 1 ) );
                 
             } else if ( commandLine.getCurrentParameter() == "setOptionPostfix" ) {
-                commandLine.setOptionPostfix( commandLine.getParameter( commandLine.getCurrentPosition() + 1 ) );
+                commandLine.setOptionPostfix( commandLine.getParameterByPosition( commandLine.getCurrentPosition() + 1 ) );
                 
             } else if ( commandLine.getCurrentParameter() == "hasOption" ) {
                 commandLine.hasOption( option ) ? cout << "yes" << endl : cout << "no" << endl;
@@ -114,10 +114,10 @@ int main() {
                 cout << commandLine.getOptionLongValue( option ) << endl;
                 
             } else if ( commandLine.getCurrentParameter() == "optionCaseSensitive" ) {
-                commandLine.optionCaseSensitive();
+                commandLine.setOptionCaseSensitive();
                 
             } else if ( commandLine.getCurrentParameter() == "optionCaseInsensitive" ) {
-                commandLine.optionCaseInsensitive();
+                commandLine.setOptionCaseInsensitive();
                 
             } else if ( commandLine.getCurrentParameter() == "isOptionCaseSensitive" ) {
                 commandLine.isOptionCaseSensitive() ? cout << "yes" << endl : cout << "no" << endl;

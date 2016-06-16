@@ -51,9 +51,9 @@ namespace environs {
             
             const int getParametersNumber() const;
             const string getAllParameters() const;
-            const string getParameter( const unsigned &position ) const;
-            const int getParameterAsInteger( const unsigned &position ) const;
-            const double getParameterAsFloat( const unsigned &position ) const;
+            const string getParameterByPosition( const unsigned &position ) const;
+            const int getParameterByPositionAsInteger( const unsigned &position ) const;
+            const double getParameterByPositionAsFloat( const unsigned &position ) const;
             
             void gotoFirstParameter() const;
             const bool gotoNextParameter() const;
@@ -84,8 +84,8 @@ namespace environs {
             const double getOptionValueAsFloat( const string &option ) const;
             const string getOptionLongValue( const string &option ) const;
             
-            void optionCaseSensitive() const;
-            void optionCaseInsensitive() const;
+            void setOptionCaseSensitive() const;
+            void setOptionCaseInsensitive() const;
             const bool isOptionCaseSensitive() const;
     };
 }
