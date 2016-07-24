@@ -13,19 +13,18 @@ Directory structure
 -------------------
 
 project-name
-├───doc
-├───include
-├───os
-│   ├───include
-│   └───os-name
-│       ├───build
-│       │   ├───bin
-│       │   ├───lib
-│       │   └───obj
-│       └───lib
-├───rc
-├───src
-└───test
++---doc
++---include
++---os
+|   \---os-name
+|       +---build
+|       |   +---bin
+|       |   +---lib
+|       |   \---obj
+|       \---lib
++---rc
++---src
+\---test
 
 - __project-name:__ *Project home directory to organize all project components.*
 
