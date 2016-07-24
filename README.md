@@ -5,14 +5,15 @@ __Note:__ This file contains a basic detail about the project which helps with b
 Building the Project
 --------------------
 
-To build the project type __gmake__ or __make__ from the home project directory.  
-To cleaning up old files type __gmake clean__ or __make clean__ from the home project directory.  
+To build the project type __gmake__ or __make__ from the home project directory.
+To cleaning up old files type __gmake clean__ or __make clean__ from the home project directory.
 To test the project type __gmake__ or __make__ from the test project directory.
 
 Directory structure
 -------------------
 
 project-name
+
 +---doc
 +---include
 +---os
