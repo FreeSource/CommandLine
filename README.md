@@ -12,21 +12,6 @@ To test the project type __gmake__ or __make__ from the test project directory.
 Directory structure
 -------------------
 
-project-name
-
-+---doc
-+---include
-+---os
-|   \---os-name
-|       +---build
-|       |   +---bin
-|       |   +---lib
-|       |   \---obj
-|       \---lib
-+---rc
-+---src
-\---test
-
 - __project-name:__ *Project home directory to organize all project components.*
 
 - __doc:__ *This directory holds all the project documentation.*
