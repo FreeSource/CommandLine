@@ -38,4 +38,4 @@ Directory structure
 
   - __src:__ *This directory contains the implementation source files for the project.*
 
-  - __test:__ *The tests you write (unit tests, fixtures, and functional tests) all go here.*here.*
+  - __test:__ *The tests you write (unit tests, fixtures, and functional tests) all go here.*
