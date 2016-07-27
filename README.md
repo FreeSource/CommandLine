@@ -15,12 +15,6 @@ Directory structure
 - __project-name:__ *Project home directory to organize all project components.*
 
   - __doc:__ *This directory holds all the project documentation.*
-    - __doc:__ *This directory holds all the project documentation.*
-
-
-- __project-name:__ *Project home directory to organize all project components.*
-
-  - __doc:__ *This directory holds all the project documentation.*
 
   - __include:__ *This directory contains all project declarations.*
 
